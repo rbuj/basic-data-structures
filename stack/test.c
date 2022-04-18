@@ -30,10 +30,17 @@ main (void)
   create (&s, depth);
   for (i = 0; i < depth; i++)
     push (s, (int) i);
-
   for (i = 0; i < depth; i++)
     printf ("%d\n", pop (s));
+  destroy (&s);
 
+  printf ("\ntest: reverse\n");
+  create (&s, depth);
+  for (i = 0; i < depth; i++)
+    push (s, (int) i);
+  reverse (&s);
+  for (i = 0; i < depth; i++)
+    printf ("%d\n", pop (s));
   destroy (&s);
 
   return EXIT_SUCCESS;

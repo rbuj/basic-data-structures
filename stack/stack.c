@@ -72,3 +72,15 @@ peek (stack *s)
   int value = is_empty (s) ? INT_MIN : s->array [s->top];
   return value;
 }
+
+void
+reverse (stack **s)
+{
+  stack    *rev = NULL;
+
+  create (&rev, (*s)->capacity);
+  while (!is_empty (*s))
+    push (rev, pop (*s));
+  destroy (s);
+  *s = rev;
+}

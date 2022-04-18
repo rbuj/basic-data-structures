@@ -36,5 +36,6 @@ extern int   is_empty (stack  *s);
 extern void  push     (stack  *s, int      value);
 extern int   pop      (stack  *s);
 extern int   peek     (stack  *s);
+extern void  reverse  (stack **s);
 
 #endif /* STACK_H */
