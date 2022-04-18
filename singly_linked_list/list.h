@@ -16,6 +16,9 @@
  * Author: Robert Buj <robert.buj@gmail.com>
  */
 
+#ifndef LIST_H
+#define LIST_H
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -30,3 +33,5 @@ extern void add              (node **head, int value);
 extern int  remove_first     (node **head);
 extern int  remove_last      (node **head);
 extern void print_list       (node *head);
+
+#endif /* LIST_H */
