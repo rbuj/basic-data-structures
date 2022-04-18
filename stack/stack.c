@@ -76,7 +76,7 @@ peek (stack *s)
 void
 reverse (stack **s)
 {
-  stack    *rev = NULL;
+  stack *rev = NULL;
 
   create (&rev, (*s)->capacity);
   while (!is_empty (*s))
