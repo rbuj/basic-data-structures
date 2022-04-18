@@ -27,7 +27,7 @@ main (void)
   unsigned i;
   unsigned depth = 20;
 
-  create (&s, 20);
+  create (&s, depth);
   for (i = 0; i < depth; i++)
     push (s, (int) i);
 
