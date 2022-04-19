@@ -3,6 +3,7 @@ INSTALL
 Makefile.in
 aclocal.m4
 ar-lib
+autom4te.cache
 compile
 config.guess
 config.h.in
@@ -15,3 +16,5 @@ ltmain.sh
 m4
 missing
 src/Makefile.in
+test-driver
+tests/Makefile.in
