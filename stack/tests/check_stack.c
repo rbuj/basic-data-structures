@@ -2,31 +2,31 @@
 #include <check.h>
 #include "../src/stack.h"
 
-stack *s = NULL;
+Stack *stack = NULL;
 
 void
 setup (void)
 {
-  create (&s, 10);
+  create (&stack, 10);
 }
 
 void
 teardown (void)
 {
-  destroy (&s);
+  destroy (&stack);
 }
 
 START_TEST(test_stack_create)
 {
-  ck_assert (is_empty (s));
-  push (s, 10);
-  ck_assert (!is_empty (s));
-  push (s, 20);
-  push (s, 30);
-  ck_assert_int_eq (pop (s), 30);
-  ck_assert_int_eq (pop (s), 20);
-  ck_assert_int_eq (pop (s), 10);
-  ck_assert (is_empty (s));
+  ck_assert (is_empty (stack));
+  push (stack, 10);
+  ck_assert (!is_empty (stack));
+  push (stack, 20);
+  push (stack, 30);
+  ck_assert_int_eq (pop (stack), 30);
+  ck_assert_int_eq (pop (stack), 20);
+  ck_assert_int_eq (pop (stack), 10);
+  ck_assert (is_empty (stack));
 }
 
 Suite *

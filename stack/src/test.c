@@ -23,7 +23,7 @@
 int
 main (void)
 {
-  stack *s = NULL;
+  Stack *s = NULL;
   unsigned i;
   unsigned depth = 20;
 

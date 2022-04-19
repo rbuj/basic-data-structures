@@ -21,7 +21,7 @@
 #include <stdlib.h>
 #include "stack.h"
 
-struct stack
+struct Stack
 {
   int top;
   unsigned capacity;
@@ -29,17 +29,17 @@ struct stack
 };
 
 void
-create (stack    **s,
+create (Stack    **s,
         unsigned   capacity)
 {
-  *s = (stack*) malloc (sizeof (stack));
+  *s = (Stack*) malloc (sizeof (Stack));
   (*s)->capacity = capacity;
   (*s)->top = -1;
   (*s)->array = (int*) malloc (capacity * sizeof (int));
 }
 
 void
-destroy (stack **s)
+destroy (Stack **s)
 {
   free ((*s)->array);
   free (*s);
@@ -47,19 +47,20 @@ destroy (stack **s)
 }
 
 int
-is_full (stack *s)
+is_full (Stack *s)
 {
   return s->top == s->capacity - 1;
 }
 
 int
-is_empty (stack *s)
+is_empty (Stack *s)
 {
   return s->top == -1;
 }
 
 void
-push (stack *s, int value)
+push (Stack *s,
+      int    value)
 {
   if (is_full (s))
     return;
@@ -67,23 +68,23 @@ push (stack *s, int value)
 }
 
 int
-pop (stack *s)
+pop (Stack *s)
 {
   int value = is_empty (s) ? INT_MIN : s->array [s->top--];
   return value;
 }
 
 int
-peek (stack *s)
+peek (Stack *s)
 {
   int value = is_empty (s) ? INT_MIN : s->array [s->top];
   return value;
 }
 
 void
-reverse (stack **s)
+reverse (Stack **s)
 {
-  stack *rev = NULL;
+  Stack *rev = NULL;
 
   create (&rev, (*s)->capacity);
   while (!is_empty (*s))

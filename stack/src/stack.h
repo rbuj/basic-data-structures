@@ -19,15 +19,17 @@
 #ifndef STACK_H
 #define STACK_H
 
-typedef struct stack stack;
+typedef struct Stack Stack;
 
-void  create   (stack **s, unsigned capacity);
-void  destroy  (stack **s);
-int   is_full  (stack  *s);
-int   is_empty (stack  *s);
-void  push     (stack  *s, int      value);
-int   pop      (stack  *s);
-int   peek     (stack  *s);
-void  reverse  (stack **s);
+void  create   (Stack    **s,
+                unsigned   capacity);
+void  destroy  (Stack    **s);
+int   is_full  (Stack     *s);
+int   is_empty (Stack     *s);
+void  push     (Stack     *s,
+                int        value);
+int   pop      (Stack  *s);
+int   peek     (Stack  *s);
+void  reverse  (Stack **s);
 
 #endif /* STACK_H */
