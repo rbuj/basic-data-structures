@@ -7,7 +7,7 @@ Stack *stack = NULL;
 void
 setup (void)
 {
-  create (&stack, 10);
+  create (&stack, 3);
 }
 
 void
@@ -19,13 +19,28 @@ teardown (void)
 START_TEST(test_stack_create)
 {
   ck_assert (is_empty (stack));
+  ck_assert (!is_full (stack));
+
   push (stack, 10);
   ck_assert (!is_empty (stack));
+  ck_assert_int_eq (peek (stack), 10);
+
   push (stack, 20);
+  ck_assert_int_eq (peek (stack), 20);
+
   push (stack, 30);
+  ck_assert_int_eq (peek (stack), 30);
+
+  ck_assert (is_full (stack));
+
   ck_assert_int_eq (pop (stack), 30);
+  ck_assert_int_eq (peek (stack), 20);
+
   ck_assert_int_eq (pop (stack), 20);
+  ck_assert_int_eq (peek (stack), 10);
+
   ck_assert_int_eq (pop (stack), 10);
+
   ck_assert (is_empty (stack));
 }
 
