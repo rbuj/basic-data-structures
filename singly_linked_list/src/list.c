@@ -20,63 +20,99 @@
 #include <stdlib.h>
 #include "list.h"
 
-void
-add_to_beginning (node **head,
-                  int    value)
+struct Node
 {
-  node *new_node = (node *) malloc( sizeof (node));
-  new_node->value = value;
-  new_node->next = *head;
-  *head = new_node;
+  int value;
+  Node *next;
+};
+
+struct List
+{
+  Node *head;
+};
+
+List*
+create (void)
+{
+  List *list = (List *) malloc( sizeof (List));
+  list->head = NULL;
+  return list;
 }
 
 void
-add (node **head,
-     int    value)
+destroy (List **list)
 {
-  if (*head == NULL) {
-    add_to_beginning (head, value);
+  Node *ptr;
+
+  if (list == NULL)
+    return;
+
+  ptr = (*list)->head;
+  while (ptr != NULL) {
+    (void) remove_first (*list);
+    ptr = (*list)->head;
+  }
+  free (*list);
+  *list = NULL;
+}
+
+void
+add_to_beginning (List *list,
+                  int   value)
+{
+  Node *new_node = (Node *) malloc( sizeof (Node));
+  new_node->value = value;
+  new_node->next = list->head;
+  list->head = new_node;
+}
+
+void
+add (List *list,
+     int   value)
+{
+  if (list->head == NULL) {
+    add_to_beginning (list, value);
   } else {
-    node *ptr = *head;
+    Node *ptr = list->head;
     while (ptr->next != NULL)
       ptr = ptr->next;
-    ptr->next = (node *) malloc (sizeof (node));
+    ptr->next = (Node *) malloc (sizeof (Node));
     ptr->next->value = value;
     ptr->next->next = NULL;
   }
 }
 
 int
-remove_first (node **head)
+remove_first (List *list)
 {
   int ret = -1;
 
-  if (*head != NULL) {
-    node *ptr = (*head)->next;
-    ret = (*head)->value;
-    free (*head);
-    *head = ptr;
+  if (list != NULL && list->head != NULL) {
+    Node *ptr = list->head->next;
+    ret = list->head->value;
+    free (list->head);
+    list->head = ptr;
   }
 
   return ret;
 }
 
 int
-remove_last (node **head)
+remove_last (List *list)
 {
   int ret = -1;
 
-  if (*head != NULL) {
-    if ((*head)->next == NULL) {
-      ret = (*head)->value;
-      free (*head);
-      *head = NULL;
+  if (list != NULL && list->head != NULL) {
+    if (list->head->next == NULL) {
+      ret = list->head->value;
+      free (list->head);
+      list->head = NULL;
     } else {
-      node *ptr = *head;
+      Node *ptr = list->head;
       while (ptr->next->next != NULL)
         ptr = ptr->next;
-      ret = (*head)->next->value;
-      free ((*head)->next);
+      ret = list->head->next->value;
+      free (list->head->next);
       ptr->next = NULL;
     }
   }
@@ -85,11 +121,15 @@ remove_last (node **head)
 }
 
 void
-print_list (node *head)
+print_list (List *list)
 {
-  node *ptr = head;
+  Node *ptr;
+
+  if (list == NULL)
+    return;
 
   printf (" nodes: [");
+  ptr = list->head;
   while (ptr != NULL) {
     printf (" %d", ptr->value);
     if (ptr->next)

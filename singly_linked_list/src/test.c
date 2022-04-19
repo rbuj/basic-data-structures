@@ -23,16 +23,16 @@
 int
 main (void)
 {
-  node *head = NULL;
+  List *list;
 
-  add (&head, 2);
-  add (&head, 3);
-  add_to_beginning (&head, 1);
+  list = create ();
+  add (list, 2);
+  add (list, 3);
+  add_to_beginning (list, 1);
 
-  print_list (head);
+  print_list (list);
 
-  while (head != NULL)
-    (void) remove_first (&head);
+  destroy (&list);
 
   return EXIT_SUCCESS;
 }

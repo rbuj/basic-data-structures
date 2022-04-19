@@ -19,16 +19,15 @@
 #ifndef LIST_H
 #define LIST_H
 
-typedef struct node
-{
-  int value;
-  struct node *next;
-} node;
+typedef struct List List;
+typedef struct Node Node;
 
-void add_to_beginning (node **head, int value);
-void add              (node **head, int value);
-int  remove_first     (node **head);
-int  remove_last      (node **head);
-void print_list       (node  *head);
+List * create           (void);
+void   destroy          (List **list);
+void   add_to_beginning (List  *list, int value);
+void   add              (List  *list, int value);
+int    remove_first     (List  *list);
+int    remove_last      (List  *list);
+void   print_list       (List  *list);
 
 #endif /* LIST_H */
