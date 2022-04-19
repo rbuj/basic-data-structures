@@ -111,8 +111,8 @@ remove_last (List *list)
       Node *ptr = list->head;
       while (ptr->next->next != NULL)
         ptr = ptr->next;
-      ret = list->head->next->value;
-      free (list->head->next);
+      ret = ptr->next->value;
+      free (ptr->next);
       ptr->next = NULL;
     }
   }

@@ -28,7 +28,11 @@ main (void)
   list = create ();
   add (list, 2);
   add (list, 3);
+  add (list, 4);
+  add (list, 5);
+  add (list, 6);
   add_to_beginning (list, 1);
+  remove_last (list);
 
   print_list (list);
 
