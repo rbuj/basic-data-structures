@@ -28,8 +28,8 @@ int   is_full  (Stack     *s);
 int   is_empty (Stack     *s);
 void  push     (Stack     *s,
                 int        value);
-int   pop      (Stack  *s);
-int   peek     (Stack  *s);
-void  reverse  (Stack **s);
+int   pop      (Stack     *s);
+int   peek     (Stack     *s);
+void  reverse  (Stack    **s);
 
 #endif /* STACK_H */
