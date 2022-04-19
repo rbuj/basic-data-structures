@@ -16,23 +16,20 @@
  * Author: Robert Buj <robert.buj@gmail.com>
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include "queue.h"
+#ifndef QUEUE_H
+#define QUEUE_H
 
-int
-main (void)
-{
-  queue *q = NULL;
-  unsigned i;
-  unsigned depth = 20;
+typedef struct Queue Queue;
 
-  create (&q, depth);
-  for (i = 0; i < depth; i++)
-    enqueue (q, (int) i);
-  for (i = 0; i < depth; i++)
-    printf ("%d\n", dequeue (q));
-  destroy (&q);
+void  create   (Queue    **q,
+                unsigned   capacity);
+void  destroy  (Queue    **q);
+int   is_full  (Queue     *q);
+int   is_empty (Queue     *q);
+void  enqueue  (Queue     *q,
+                int        value);
+int   dequeue  (Queue     *q);
+int   front    (Queue     *q);
+int   rear     (Queue     *q);
 
-  return EXIT_SUCCESS;
-}
+#endif /* QUEUE_H */

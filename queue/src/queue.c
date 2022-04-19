@@ -21,11 +21,18 @@
 #include <stdlib.h>
 #include "queue.h"
 
+struct Queue
+{
+  int front, rear, size;
+  unsigned capacity;
+  int *array;
+};
+
 void
-create (queue    **q,
+create (Queue    **q,
         unsigned   capacity)
 {
-  *q = (queue*) malloc (sizeof (queue));
+  *q = (Queue*) malloc (sizeof (Queue));
   (*q)->capacity = capacity;
   (*q)->rear = capacity - 1;
   (*q)->size = 0;
@@ -34,7 +41,7 @@ create (queue    **q,
 }
 
 void
-destroy (queue **q)
+destroy (Queue **q)
 {
   free ((*q)->array);
   free (*q);
@@ -42,19 +49,20 @@ destroy (queue **q)
 }
 
 int
-is_full (queue *q)
+is_full (Queue *q)
 {
   return q->size == q->capacity;
 }
 
 int
-is_empty (queue *q)
+is_empty (Queue *q)
 {
   return q->size == 0;
 }
 
 void
-enqueue (queue *q, int value)
+enqueue (Queue *q,
+         int    value)
 {
   if (is_full (q))
     return;
@@ -65,7 +73,7 @@ enqueue (queue *q, int value)
 }
 
 int
-dequeue (queue *q)
+dequeue (Queue *q)
 {
   int value = q->array [q->front];
   q->front = (q->front + 1) % q->capacity;
@@ -74,14 +82,14 @@ dequeue (queue *q)
 }
 
 int
-front (queue *q)
+front (Queue *q)
 {
   int value = is_empty (q) ? INT_MIN : q->array [q->front];
   return value;
 }
 
 int
-rear (queue *q)
+rear (Queue *q)
 {
   int value = is_empty (q) ? INT_MIN : q->array [q->rear];
   return value;
