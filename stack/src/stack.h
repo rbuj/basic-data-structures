@@ -19,15 +19,7 @@
 #ifndef STACK_H
 #define STACK_H
 
-#include <stdio.h>
-#include <stdlib.h>
-
-typedef struct stack
-{
-  int top;
-  unsigned capacity;
-  int *array;
-} stack;
+typedef struct stack stack;
 
 extern void  create   (stack **s, unsigned capacity);
 extern void  destroy  (stack **s);

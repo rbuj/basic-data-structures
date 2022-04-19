@@ -21,6 +21,13 @@
 #include <stdlib.h>
 #include "stack.h"
 
+struct stack
+{
+  int top;
+  unsigned capacity;
+  int *array;
+};
+
 void
 create (stack    **s,
         unsigned   capacity)
