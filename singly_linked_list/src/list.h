@@ -19,19 +19,16 @@
 #ifndef LIST_H
 #define LIST_H
 
-#include <stdio.h>
-#include <stdlib.h>
-
 typedef struct node
 {
   int value;
   struct node *next;
 } node;
 
-extern void add_to_beginning (node **head, int value);
-extern void add              (node **head, int value);
-extern int  remove_first     (node **head);
-extern int  remove_last      (node **head);
-extern void print_list       (node *head);
+void add_to_beginning (node **head, int value);
+void add              (node **head, int value);
+int  remove_first     (node **head);
+int  remove_last      (node **head);
+void print_list       (node  *head);
 
 #endif /* LIST_H */
