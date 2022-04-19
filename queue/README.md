@@ -8,6 +8,10 @@ sudo dnf install gcc make autoconf automake pkg-config check-devel libasan
 ./configure
 make
 ```
+# Run unit tests
+```
+make check
+```
 # Run sample code
 ```
 ./src/test

@@ -16,3 +16,5 @@ ltmain.sh
 m4
 missing
 src/Makefile.in
+test-driver
+tests/Makefile.in
