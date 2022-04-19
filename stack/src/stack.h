@@ -21,13 +21,13 @@
 
 typedef struct stack stack;
 
-extern void  create   (stack **s, unsigned capacity);
-extern void  destroy  (stack **s);
-extern int   is_full  (stack  *s);
-extern int   is_empty (stack  *s);
-extern void  push     (stack  *s, int      value);
-extern int   pop      (stack  *s);
-extern int   peek     (stack  *s);
-extern void  reverse  (stack **s);
+void  create   (stack **s, unsigned capacity);
+void  destroy  (stack **s);
+int   is_full  (stack  *s);
+int   is_empty (stack  *s);
+void  push     (stack  *s, int      value);
+int   pop      (stack  *s);
+int   peek     (stack  *s);
+void  reverse  (stack **s);
 
 #endif /* STACK_H */
