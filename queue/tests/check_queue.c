@@ -38,6 +38,21 @@ teardown (void)
   queue_destroy (&queue);
 }
 
+START_TEST (test_queue)
+{
+  ck_assert (queue_is_empty (queue));
+  ck_assert (!queue_is_full (queue));
+
+  queue_enqueue (queue, 10);
+  ck_assert (!queue_is_empty (queue));
+
+  queue_enqueue (queue, 20);
+
+  ck_assert_int_eq (queue_dequeue (queue), 10);
+  ck_assert_int_eq (queue_dequeue (queue), 20);
+  ck_assert (queue_is_empty (queue));
+}
+
 START_TEST (test_queue_clean)
 {
   ck_assert (queue_is_empty (queue));
@@ -51,21 +66,6 @@ START_TEST (test_queue_clean_empty)
 {
   ck_assert (queue_is_empty (queue));
   queue_clean (queue);
-  ck_assert (queue_is_empty (queue));
-}
-
-START_TEST (test_queue_create)
-{
-  ck_assert (queue_is_empty (queue));
-  ck_assert (!queue_is_full (queue));
-
-  queue_enqueue (queue, 10);
-  ck_assert (!queue_is_empty (queue));
-
-  queue_enqueue (queue, 20);
-
-  ck_assert_int_eq (queue_dequeue (queue), 10);
-  ck_assert_int_eq (queue_dequeue (queue), 20);
   ck_assert (queue_is_empty (queue));
 }
 
@@ -148,9 +148,9 @@ check_queue_suite (void)
 
   tc_core = tcase_create ("Core");
   tcase_add_checked_fixture (tc_core, setup, teardown);
+  tcase_add_test (tc_core, test_queue);
   tcase_add_test (tc_core, test_queue_clean);
   tcase_add_test (tc_core, test_queue_clean_empty);
-  tcase_add_test (tc_core, test_queue_create);
   tcase_add_test (tc_core, test_queue_is_full);
   tcase_add_test (tc_core, test_queue_is_full_empty);
   suite_add_tcase (s, tc_core);
