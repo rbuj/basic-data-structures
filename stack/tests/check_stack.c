@@ -180,7 +180,7 @@ check_stack_suite (void)
   s = suite_create ("Stack");
 
   tc_core = tcase_create ("Core");
-  tcase_add_checked_fixture (tc_core, setup, teardown);
+  tcase_add_checked_fixture   (tc_core, setup, teardown);
   tcase_add_test              (tc_core, test_stack);
   tcase_add_test              (tc_core, test_stack_clean);
   tcase_add_test              (tc_core, test_stack_clean_empty);
