@@ -57,6 +57,16 @@ destroy (Queue **queue_ptr)
   }
 }
 
+void
+clean (Queue *queue)
+{
+  if (queue) {
+    queue->rear = queue->capacity - 1;
+    queue->size = 0;
+    queue->front = 0;
+  }
+}
+
 int
 is_full (Queue *queue)
 {

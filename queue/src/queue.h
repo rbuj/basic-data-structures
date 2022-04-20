@@ -23,6 +23,7 @@ typedef struct Queue Queue;
 
 Queue * create   (unsigned   capacity);
 void    destroy  (Queue    **queue_ptr);
+void    clean    (Queue     *queue);
 int     is_full  (Queue     *queue);
 int     is_empty (Queue     *queue);
 void    enqueue  (Queue     *queue,
