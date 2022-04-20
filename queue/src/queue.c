@@ -73,8 +73,10 @@ queue_clean (Queue *queue)
 int
 queue_is_full (Queue *queue)
 {
-  if (queue == NULL)
+  if (queue == NULL) {
+    fprintf (stderr, "The queue is NULL.\n");
     raise (SIGABRT);
+  }
 
   return queue->size == queue->capacity;
 }
@@ -82,8 +84,10 @@ queue_is_full (Queue *queue)
 int
 queue_is_empty (Queue *queue)
 {
-  if (queue == NULL)
+  if (queue == NULL) {
+    fprintf (stderr, "The queue is NULL.\n");
     raise (SIGABRT);
+  }
 
   return queue->size == 0;
 }
@@ -92,8 +96,10 @@ void
 queue_enqueue (Queue *queue,
                int    value)
 {
-  if (queue_is_full (queue))
-    return;
+  if (queue_is_full (queue)) {
+    fprintf (stderr, "The queue is full.\n");
+    raise (SIGABRT);
+  }
 
   queue->rear = (queue->rear + 1) % queue->capacity;
   queue->array [queue->rear] = value;
