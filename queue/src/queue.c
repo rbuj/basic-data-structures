@@ -33,7 +33,7 @@ struct Queue
 };
 
 Queue *
-create (unsigned capacity)
+queue_create (unsigned capacity)
 {
   Queue *queue;
 
@@ -47,7 +47,7 @@ create (unsigned capacity)
 }
 
 void
-destroy (Queue **queue_ptr)
+queue_destroy (Queue **queue_ptr)
 {
   Queue *queue;
 
@@ -60,7 +60,7 @@ destroy (Queue **queue_ptr)
 }
 
 void
-clean (Queue *queue)
+queue_clean (Queue *queue)
 {
   if (queue == NULL)
     raise (SIGABRT);
@@ -71,7 +71,7 @@ clean (Queue *queue)
 }
 
 int
-is_full (Queue *queue)
+queue_is_full (Queue *queue)
 {
   if (queue == NULL)
     raise (SIGABRT);
@@ -80,7 +80,7 @@ is_full (Queue *queue)
 }
 
 int
-is_empty (Queue *queue)
+queue_is_empty (Queue *queue)
 {
   if (queue == NULL)
     raise (SIGABRT);
@@ -89,10 +89,10 @@ is_empty (Queue *queue)
 }
 
 void
-enqueue (Queue *queue,
+queue_enqueue (Queue *queue,
          int    value)
 {
-  if (is_full (queue))
+  if (queue_is_full (queue))
     return;
 
   queue->rear = (queue->rear + 1) % queue->capacity;
@@ -101,9 +101,9 @@ enqueue (Queue *queue,
 }
 
 int
-dequeue (Queue *queue)
+queue_dequeue (Queue *queue)
 {
-  if (is_empty (queue)) {
+  if (queue_is_empty (queue)) {
     return INT_MIN;
   } else {
     int value;
@@ -116,15 +116,15 @@ dequeue (Queue *queue)
 }
 
 int
-front (Queue *queue)
+queue_front (Queue *queue)
 {
-  int value = is_empty (queue) ? INT_MIN : queue->array [queue->front];
+  int value = queue_is_empty (queue) ? INT_MIN : queue->array [queue->front];
   return value;
 }
 
 int
-rear (Queue *queue)
+queue_rear (Queue *queue)
 {
-  int value = is_empty (queue) ? INT_MIN : queue->array [queue->rear];
+  int value = queue_is_empty (queue) ? INT_MIN : queue->array [queue->rear];
   return value;
 }

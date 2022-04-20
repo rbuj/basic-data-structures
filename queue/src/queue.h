@@ -21,15 +21,15 @@
 
 typedef struct Queue Queue;
 
-Queue * create   (unsigned   capacity);
-void    destroy  (Queue    **queue_ptr);
-void    clean    (Queue     *queue);
-int     is_full  (Queue     *queue);
-int     is_empty (Queue     *queue);
-void    enqueue  (Queue     *queue,
-                  int        value);
-int     dequeue  (Queue     *queue);
-int     front    (Queue     *queue);
-int     rear     (Queue     *queue);
+Queue * queue_create   (unsigned   capacity);
+void    queue_destroy  (Queue    **queue_ptr);
+void    queue_clean    (Queue     *queue);
+int     queue_is_full  (Queue     *queue);
+int     queue_is_empty (Queue     *queue);
+void    queue_enqueue  (Queue     *queue,
+                        int        value);
+int     queue_dequeue  (Queue     *queue);
+int     queue_front    (Queue     *queue);
+int     queue_rear     (Queue     *queue);
 
 #endif /* QUEUE_H */

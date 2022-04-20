@@ -27,15 +27,15 @@ main (void)
   unsigned  i;
   unsigned  depth = 20;
 
-  queue = create (depth);
+  queue = queue_create (depth);
 
   for (i = 0; i < depth; i++)
-    enqueue (queue, (int) i);
+    queue_enqueue (queue, (int) i);
 
   for (i = 0; i < depth; i++)
-    printf ("%d\n", dequeue (queue));
+    printf ("%d\n", queue_dequeue (queue));
 
-  destroy (&queue);
+  queue_destroy (&queue);
 
   return EXIT_SUCCESS;
 }

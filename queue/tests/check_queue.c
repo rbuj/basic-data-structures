@@ -29,50 +29,50 @@ Queue *queue = NULL;
 void
 setup (void)
 {
-  queue = create (QUEUE_CAPACITY);
+  queue = queue_create (QUEUE_CAPACITY);
 }
 
 void
 teardown (void)
 {
-  destroy (&queue);
+  queue_destroy (&queue);
 }
 
 START_TEST (test_queue_clean)
 {
   int i;
 
-  ck_assert (!is_full (queue));
+  ck_assert (!queue_is_full (queue));
   for (i = 0; i < QUEUE_CAPACITY - 1; i++)
-    enqueue (queue, i);
-  clean (queue);
-  enqueue (queue, i + 1);
-  ck_assert (!is_full (queue));
+	  queue_enqueue (queue, i);
+  queue_clean (queue);
+  queue_enqueue (queue, i + 1);
+  ck_assert (!queue_is_full (queue));
 }
 
 START_TEST (test_queue_create)
 {
-  ck_assert (is_empty (queue));
-  ck_assert (!is_full (queue));
+  ck_assert (queue_is_empty (queue));
+  ck_assert (!queue_is_full (queue));
 
-  enqueue (queue, 10);
-  ck_assert (!is_empty (queue));
+  queue_enqueue (queue, 10);
+  ck_assert (!queue_is_empty (queue));
 
-  enqueue (queue, 20);
+  queue_enqueue (queue, 20);
 
-  ck_assert_int_eq (dequeue (queue), 10);
-  ck_assert_int_eq (dequeue (queue), 20);
-  ck_assert (is_empty (queue));
+  ck_assert_int_eq (queue_dequeue (queue), 10);
+  ck_assert_int_eq (queue_dequeue (queue), 20);
+  ck_assert (queue_is_empty (queue));
 }
 
 START_TEST (test_queue_is_full)
 {
   int i;
 
-  ck_assert (!is_full (queue));
+  ck_assert (!queue_is_full (queue));
   for (i = 0; i < QUEUE_CAPACITY; i++)
-    enqueue (queue, i);
-  ck_assert (is_full (queue));
+    queue_enqueue (queue, i);
+  ck_assert (queue_is_full (queue));
 }
 
 /* tc_null_check */
@@ -80,53 +80,53 @@ START_TEST (test_queue_is_full)
 START_TEST (test_queue_clean_null)
 {
   ck_assert (queue == NULL);
-  clean (queue);
+  queue_clean (queue);
 }
 
 START_TEST (test_queue_dequeue_null)
 {
   ck_assert (queue == NULL);
-  (void) dequeue (queue);
+  (void) queue_dequeue (queue);
 }
 
 START_TEST (test_queue_destroy_null)
 {
   ck_assert (queue == NULL);
-  destroy (&queue);
+  queue_destroy (&queue);
 }
 
 START_TEST (test_queue_enqueue_null)
 {
   ck_assert (queue == NULL);
-  enqueue (queue, 1);
+  queue_enqueue (queue, 1);
 }
 
 START_TEST (test_queue_front_null)
 {
   ck_assert (queue == NULL);
-  (void) front (queue);
+  (void) queue_front (queue);
 }
 
 START_TEST (test_queue_is_empty_null)
 {
   ck_assert (queue == NULL);
-  is_empty (queue);
+  queue_is_empty (queue);
 }
 
 START_TEST (test_queue_is_full_null)
 {
   ck_assert (queue == NULL);
-  is_full (queue);
+  queue_is_full (queue);
 }
 
 START_TEST (test_queue_rear_null)
 {
   ck_assert (queue == NULL);
-  (void) rear (queue);
+  (void) queue_rear (queue);
 }
 
 Suite *
-queue_suite (void)
+check_queue_suite (void)
 {
   Suite *s;
   TCase *tc_core;
@@ -158,11 +158,11 @@ queue_suite (void)
 int
 main (void)
 {
-  int number_failed;
-  Suite *s;
+  int      number_failed;
+  Suite   *s;
   SRunner *sr;
 
-  s = queue_suite ();
+  s = check_queue_suite ();
   sr = srunner_create (s);
 
   srunner_run_all (sr, CK_VERBOSE);
