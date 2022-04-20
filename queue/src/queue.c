@@ -124,13 +124,11 @@ queue_dequeue (Queue *queue)
 int
 queue_front (Queue *queue)
 {
-  int value = queue_is_empty (queue) ? INT_MIN : queue->array [queue->front];
-  return value;
+  return queue_is_empty (queue) ? INT_MIN : queue->array [queue->front];
 }
 
 int
 queue_rear (Queue *queue)
 {
-  int value = queue_is_empty (queue) ? INT_MIN : queue->array [queue->rear];
-  return value;
+  return queue_is_empty (queue) ? INT_MIN : queue->array [queue->rear];
 }

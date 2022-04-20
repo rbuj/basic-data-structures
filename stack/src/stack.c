@@ -33,7 +33,9 @@ struct Stack
 Stack *
 stack_create (unsigned capacity)
 {
-  Stack *stack = (Stack*) malloc (sizeof (Stack));
+  Stack *stack;
+
+  stack = (Stack*) malloc (sizeof (Stack));
   stack->capacity = capacity;
   stack->top = -1;
   stack->array = (int*) malloc (capacity * sizeof (int));
@@ -99,15 +101,13 @@ stack_push (Stack *stack,
 int
 stack_pop (Stack *stack)
 {
-  int value = stack_is_empty (stack) ? INT_MIN : stack->array [stack->top--];
-  return value;
+  return stack_is_empty (stack) ? INT_MIN : stack->array [stack->top--];
 }
 
 int
 stack_peek (Stack *stack)
 {
-  int value = stack_is_empty (stack) ? INT_MIN : stack->array [stack->top];
-  return value;
+  return stack_is_empty (stack) ? INT_MIN : stack->array [stack->top];
 }
 
 void
