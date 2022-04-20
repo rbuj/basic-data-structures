@@ -90,7 +90,7 @@ queue_is_empty (Queue *queue)
 
 void
 queue_enqueue (Queue *queue,
-         int    value)
+               int    value)
 {
   if (queue_is_full (queue))
     return;
