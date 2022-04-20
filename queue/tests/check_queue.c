@@ -7,7 +7,7 @@ Queue *queue = NULL;
 void
 setup (void)
 {
-  create (&queue, 10);
+  queue = create (10);
 }
 
 void
@@ -31,6 +31,12 @@ START_TEST(test_queue_create)
   ck_assert (is_empty (queue));
 }
 
+START_TEST(test_destroy_null_collection)
+{
+  Queue *q = NULL;
+  destroy (&q);
+}
+
 Suite *
 queue_suite (void)
 {
@@ -38,10 +44,13 @@ queue_suite (void)
   TCase *tc_core;
 
   s = suite_create ("Queue");
+
   tc_core = tcase_create ("Core");
   tcase_add_checked_fixture (tc_core, setup, teardown);
   tcase_add_test (tc_core, test_queue_create);
+  tcase_add_test (tc_core, test_destroy_null_collection);
   suite_add_tcase (s, tc_core);
+
   return s;
 }
 

@@ -1,4 +1,3 @@
-CC = gcc
 AM_CFLAGS = -ggdb3 -O0 -fsanitize=address
 AM_LDFLAGS = -O0 -fsanitize=address
 

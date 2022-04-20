@@ -23,74 +23,89 @@
 
 struct Queue
 {
-  int front, rear, size;
-  unsigned capacity;
-  int *array;
+  int       front;
+  int       rear;
+  int       size;
+  unsigned  capacity;
+  int      *array;
 };
 
-void
-create (Queue    **q,
-        unsigned   capacity)
+Queue *
+create (unsigned capacity)
 {
-  *q = (Queue*) malloc (sizeof (Queue));
-  (*q)->capacity = capacity;
-  (*q)->rear = capacity - 1;
-  (*q)->size = 0;
-  (*q)->front = 0;
-  (*q)->array = (int*) malloc (capacity * sizeof (int));
+  Queue *queue;
+
+  queue = (Queue*) malloc (sizeof (Queue));
+  queue->capacity = capacity;
+  queue->rear = capacity - 1;
+  queue->size = 0;
+  queue->front = 0;
+  queue->array = (int*) malloc (capacity * sizeof (int));
+  return queue;
 }
 
 void
-destroy (Queue **q)
+destroy (Queue **queue_ptr)
 {
-  free ((*q)->array);
-  free (*q);
-  *q = NULL;
+  Queue *queue;
+
+  queue = *queue_ptr;
+  if (queue) {
+    *queue_ptr = NULL;
+    free (queue->array);
+    free (queue);
+  }
 }
 
 int
-is_full (Queue *q)
+is_full (Queue *queue)
 {
-  return q->size == q->capacity;
+  return queue->size == queue->capacity;
 }
 
 int
-is_empty (Queue *q)
+is_empty (Queue *queue)
 {
-  return q->size == 0;
+  return queue->size == 0;
 }
 
 void
-enqueue (Queue *q,
+enqueue (Queue *queue,
          int    value)
 {
-  if (is_full (q))
+  if (is_full (queue))
     return;
 
-  q->rear = (q->rear + 1) % q->capacity;
-  q->array [q->rear] = value;
-  q->size += 1;
+  queue->rear = (queue->rear + 1) % queue->capacity;
+  queue->array [queue->rear] = value;
+  queue->size += 1;
 }
 
 int
-dequeue (Queue *q)
+dequeue (Queue *queue)
 {
-  int value = q->array [q->front];
-  q->front = (q->front + 1) % q->capacity;
-  q->size -= 1;
+  if (is_empty (queue)) {
+    return INT_MIN;
+  } else {
+    int value;
+
+    value = queue->array [queue->front];
+    queue->front = (queue->front + 1) % queue->capacity;
+    queue->size -= 1;
+    return value;
+  }
+}
+
+int
+front (Queue *queue)
+{
+  int value = is_empty (queue) ? INT_MIN : queue->array [queue->front];
   return value;
 }
 
 int
-front (Queue *q)
+rear (Queue *queue)
 {
-  int value = is_empty (q) ? INT_MIN : q->array [q->front];
-  return value;
-}
-
-int
-rear (Queue *q)
-{
-  int value = is_empty (q) ? INT_MIN : q->array [q->rear];
+  int value = is_empty (queue) ? INT_MIN : queue->array [queue->rear];
   return value;
 }

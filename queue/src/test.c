@@ -23,16 +23,16 @@
 int
 main (void)
 {
-  Queue *q = NULL;
+  Queue *queue = NULL;
   unsigned i;
   unsigned depth = 20;
 
-  create (&q, depth);
+  queue = create (depth);
   for (i = 0; i < depth; i++)
-    enqueue (q, (int) i);
+    enqueue (queue, (int) i);
   for (i = 0; i < depth; i++)
-    printf ("%d\n", dequeue (q));
-  destroy (&q);
+    printf ("%d\n", dequeue (queue));
+  destroy (&queue);
 
   return EXIT_SUCCESS;
 }
