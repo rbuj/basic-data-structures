@@ -23,25 +23,25 @@
 int
 main (void)
 {
-  Stack *s = NULL;
-  unsigned i;
-  unsigned depth = 20;
+  Stack    *stack;
+  unsigned  i;
+  unsigned  depth = 20;
 
-  create (&s, depth);
+  stack = create (depth);
   for (i = 0; i < depth; i++)
-    push (s, (int) i);
+    push (stack, (int) i);
   for (i = 0; i < depth; i++)
-    printf ("%d\n", pop (s));
-  destroy (&s);
+    printf ("%d\n", pop (stack));
+  destroy (&stack);
 
   printf ("\ntest: reverse\n");
-  create (&s, depth);
+  stack = create (depth);
   for (i = 0; i < depth; i++)
-    push (s, (int) i);
-  reverse (&s);
+    push (stack, (int) i);
+  reverse (&stack);
   for (i = 0; i < depth; i++)
-    printf ("%d\n", pop (s));
-  destroy (&s);
+    printf ("%d\n", pop (stack));
+  destroy (&stack);
 
   return EXIT_SUCCESS;
 }

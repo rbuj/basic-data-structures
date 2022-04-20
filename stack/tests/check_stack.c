@@ -17,6 +17,7 @@
  */
 
 #include <stdlib.h>
+#include <signal.h>
 #include <check.h>
 #include "../src/stack.h"
 
@@ -25,7 +26,7 @@ Stack *stack = NULL;
 void
 setup (void)
 {
-  create (&stack, 3);
+  stack = create (3);
 }
 
 void
@@ -62,25 +63,68 @@ START_TEST(test_stack_create)
   ck_assert (is_empty (stack));
 }
 
+/* tc_null_check */
+
+START_TEST (test_stack_destroy_null)
+{
+  ck_assert (stack == NULL);
+  destroy (&stack);
+}
+
+START_TEST (test_stack_is_empty_null)
+{
+  ck_assert (stack == NULL);
+  is_empty (stack);
+}
+
+START_TEST (test_stack_is_full_null)
+{
+  ck_assert (stack == NULL);
+  is_full (stack);
+}
+
+START_TEST (test_stack_pop_null)
+{
+  ck_assert (stack == NULL);
+  (void) pop (stack);
+}
+
+START_TEST (test_stack_push_null)
+{
+  ck_assert (stack == NULL);
+  push (stack, 1);
+}
+
 Suite *
 stack_suite (void)
 {
   Suite *s;
   TCase *tc_core;
+  TCase *tc_null_check;
 
   s = suite_create ("Stack");
+
   tc_core = tcase_create ("Core");
   tcase_add_checked_fixture (tc_core, setup, teardown);
   tcase_add_test (tc_core, test_stack_create);
   suite_add_tcase (s, tc_core);
+
+  tc_null_check = tcase_create("Null");
+  tcase_add_test              (tc_null_check, test_stack_destroy_null);
+  tcase_add_test_raise_signal (tc_null_check, test_stack_is_empty_null, SIGABRT);
+  tcase_add_test_raise_signal (tc_null_check, test_stack_is_full_null, SIGABRT);
+  tcase_add_test_raise_signal (tc_null_check, test_stack_pop_null, SIGABRT);
+  tcase_add_test_raise_signal (tc_null_check, test_stack_push_null, SIGABRT);
+  suite_add_tcase (s, tc_null_check);
+
   return s;
 }
 
 int
 main (void)
 {
-  int number_failed;
-  Suite *s;
+  int      number_failed;
+  Suite   *s;
   SRunner *sr;
 
   s = stack_suite ();

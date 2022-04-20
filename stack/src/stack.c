@@ -19,76 +19,95 @@
 #include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <signal.h>
+
 #include "stack.h"
 
 struct Stack
 {
-  int top;
-  unsigned capacity;
-  int *array;
+  int       top;
+  unsigned  capacity;
+  int      *array;
 };
 
-void
-create (Stack    **s,
-        unsigned   capacity)
+Stack *
+create (unsigned capacity)
 {
-  *s = (Stack*) malloc (sizeof (Stack));
-  (*s)->capacity = capacity;
-  (*s)->top = -1;
-  (*s)->array = (int*) malloc (capacity * sizeof (int));
+  Stack *stack = (Stack*) malloc (sizeof (Stack));
+  stack->capacity = capacity;
+  stack->top = -1;
+  stack->array = (int*) malloc (capacity * sizeof (int));
+  return stack;
 }
 
 void
-destroy (Stack **s)
+destroy (Stack **stack_ptr)
 {
-  free ((*s)->array);
-  free (*s);
-  *s = NULL;
+  Stack *stack;
+
+  stack = *stack_ptr;
+  if (stack) {
+    *stack_ptr = NULL;
+    free (stack->array);
+    free (stack);
+  }
 }
 
 int
-is_full (Stack *s)
+is_full (Stack *stack)
 {
-  return s->top == s->capacity - 1;
+  if (stack == NULL)
+    raise (SIGABRT);
+
+  return stack->top == stack->capacity - 1;
 }
 
 int
-is_empty (Stack *s)
+is_empty (Stack *stack)
 {
-  return s->top == -1;
+  if (stack == NULL)
+    raise (SIGABRT);
+
+  return stack->top == -1;
 }
 
 void
-push (Stack *s,
+push (Stack *stack,
       int    value)
 {
-  if (is_full (s))
+  if (is_full (stack))
     return;
-  s->array[++s->top] = value;
+
+  stack->array[++stack->top] = value;
 }
 
 int
-pop (Stack *s)
+pop (Stack *stack)
 {
-  int value = is_empty (s) ? INT_MIN : s->array [s->top--];
+  int value = is_empty (stack) ? INT_MIN : stack->array [stack->top--];
   return value;
 }
 
 int
-peek (Stack *s)
+peek (Stack *stack)
 {
-  int value = is_empty (s) ? INT_MIN : s->array [s->top];
+  int value = is_empty (stack) ? INT_MIN : stack->array [stack->top];
   return value;
 }
 
 void
-reverse (Stack **s)
+reverse (Stack **stack_ptr)
 {
-  Stack *rev = NULL;
+  Stack *rev;
+  Stack *stack;
 
-  create (&rev, (*s)->capacity);
-  while (!is_empty (*s))
-    push (rev, pop (*s));
-  destroy (s);
-  *s = rev;
+  if (*stack_ptr == NULL)
+    raise (SIGABRT);
+
+  stack = *stack_ptr;
+  rev = create (stack->capacity);
+  while (!is_empty (stack))
+    push (rev, pop (stack));
+  destroy (stack_ptr);
+  *stack_ptr = rev;
 }
