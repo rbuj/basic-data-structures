@@ -27,21 +27,21 @@ main (void)
   unsigned  i;
   unsigned  depth = 20;
 
-  stack = create (depth);
+  stack = stack_create (depth);
   for (i = 0; i < depth; i++)
-    push (stack, (int) i);
+    stack_push (stack, (int) i);
   for (i = 0; i < depth; i++)
-    printf ("%d\n", pop (stack));
-  destroy (&stack);
+    printf ("%d\n", stack_pop (stack));
+  stack_destroy (&stack);
 
   printf ("\ntest: reverse\n");
-  stack = create (depth);
+  stack = stack_create (depth);
   for (i = 0; i < depth; i++)
-    push (stack, (int) i);
-  reverse (&stack);
+    stack_push (stack, (int) i);
+  stack_reverse (&stack);
   for (i = 0; i < depth; i++)
-    printf ("%d\n", pop (stack));
-  destroy (&stack);
+    printf ("%d\n", stack_pop (stack));
+  stack_destroy (&stack);
 
   return EXIT_SUCCESS;
 }

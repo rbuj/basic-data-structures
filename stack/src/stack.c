@@ -31,7 +31,7 @@ struct Stack
 };
 
 Stack *
-create (unsigned capacity)
+stack_create (unsigned capacity)
 {
   Stack *stack = (Stack*) malloc (sizeof (Stack));
   stack->capacity = capacity;
@@ -41,7 +41,7 @@ create (unsigned capacity)
 }
 
 void
-destroy (Stack **stack_ptr)
+stack_destroy (Stack **stack_ptr)
 {
   Stack *stack;
 
@@ -54,7 +54,7 @@ destroy (Stack **stack_ptr)
 }
 
 int
-is_full (Stack *stack)
+stack_is_full (Stack *stack)
 {
   if (stack == NULL)
     raise (SIGABRT);
@@ -63,7 +63,7 @@ is_full (Stack *stack)
 }
 
 int
-is_empty (Stack *stack)
+stack_is_empty (Stack *stack)
 {
   if (stack == NULL)
     raise (SIGABRT);
@@ -72,31 +72,31 @@ is_empty (Stack *stack)
 }
 
 void
-push (Stack *stack,
-      int    value)
+stack_push (Stack *stack,
+            int    value)
 {
-  if (is_full (stack))
+  if (stack_is_full (stack))
     return;
 
   stack->array[++stack->top] = value;
 }
 
 int
-pop (Stack *stack)
+stack_pop (Stack *stack)
 {
-  int value = is_empty (stack) ? INT_MIN : stack->array [stack->top--];
+  int value = stack_is_empty (stack) ? INT_MIN : stack->array [stack->top--];
   return value;
 }
 
 int
-peek (Stack *stack)
+stack_peek (Stack *stack)
 {
-  int value = is_empty (stack) ? INT_MIN : stack->array [stack->top];
+  int value = stack_is_empty (stack) ? INT_MIN : stack->array [stack->top];
   return value;
 }
 
 void
-reverse (Stack **stack_ptr)
+stack_reverse (Stack **stack_ptr)
 {
   Stack *rev;
   Stack *stack;
@@ -105,9 +105,9 @@ reverse (Stack **stack_ptr)
     raise (SIGABRT);
 
   stack = *stack_ptr;
-  rev = create (stack->capacity);
-  while (!is_empty (stack))
-    push (rev, pop (stack));
-  destroy (stack_ptr);
+  rev = stack_create (stack->capacity);
+  while (!stack_is_empty (stack))
+    stack_push (rev, stack_pop (stack));
+  stack_destroy (stack_ptr);
   *stack_ptr = rev;
 }

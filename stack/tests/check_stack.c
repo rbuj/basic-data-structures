@@ -26,41 +26,41 @@ Stack *stack = NULL;
 void
 setup (void)
 {
-  stack = create (3);
+  stack = stack_create (3);
 }
 
 void
 teardown (void)
 {
-  destroy (&stack);
+  stack_destroy (&stack);
 }
 
-START_TEST(test_stack_create)
+START_TEST (test_stack_create)
 {
-  ck_assert (is_empty (stack));
-  ck_assert (!is_full (stack));
+  ck_assert (stack_is_empty (stack));
+  ck_assert (!stack_is_full (stack));
 
-  push (stack, 10);
-  ck_assert (!is_empty (stack));
-  ck_assert_int_eq (peek (stack), 10);
+  stack_push (stack, 10);
+  ck_assert (!stack_is_empty (stack));
+  ck_assert_int_eq (stack_peek (stack), 10);
 
-  push (stack, 20);
-  ck_assert_int_eq (peek (stack), 20);
+  stack_push (stack, 20);
+  ck_assert_int_eq (stack_peek (stack), 20);
 
-  push (stack, 30);
-  ck_assert_int_eq (peek (stack), 30);
+  stack_push (stack, 30);
+  ck_assert_int_eq (stack_peek (stack), 30);
 
-  ck_assert (is_full (stack));
+  ck_assert (stack_is_full (stack));
 
-  ck_assert_int_eq (pop (stack), 30);
-  ck_assert_int_eq (peek (stack), 20);
+  ck_assert_int_eq (stack_pop (stack), 30);
+  ck_assert_int_eq (stack_peek (stack), 20);
 
-  ck_assert_int_eq (pop (stack), 20);
-  ck_assert_int_eq (peek (stack), 10);
+  ck_assert_int_eq (stack_pop (stack), 20);
+  ck_assert_int_eq (stack_peek (stack), 10);
 
-  ck_assert_int_eq (pop (stack), 10);
+  ck_assert_int_eq (stack_pop (stack), 10);
 
-  ck_assert (is_empty (stack));
+  ck_assert (stack_is_empty (stack));
 }
 
 /* tc_null_check */
@@ -68,41 +68,41 @@ START_TEST(test_stack_create)
 START_TEST (test_stack_destroy_null)
 {
   ck_assert (stack == NULL);
-  destroy (&stack);
+  stack_destroy (&stack);
 }
 
 START_TEST (test_stack_is_empty_null)
 {
   ck_assert (stack == NULL);
-  is_empty (stack);
+  stack_is_empty (stack);
 }
 
 START_TEST (test_stack_is_full_null)
 {
   ck_assert (stack == NULL);
-  is_full (stack);
+  stack_is_full (stack);
 }
 
 START_TEST (test_stack_peek_null)
 {
   ck_assert (stack == NULL);
-  (void) peek (stack);
+  (void) stack_peek (stack);
 }
 
 START_TEST (test_stack_pop_null)
 {
   ck_assert (stack == NULL);
-  (void) pop (stack);
+  (void) stack_pop (stack);
 }
 
 START_TEST (test_stack_push_null)
 {
   ck_assert (stack == NULL);
-  push (stack, 1);
+  stack_push (stack, 1);
 }
 
 Suite *
-stack_suite (void)
+check_stack_suite (void)
 {
   Suite *s;
   TCase *tc_core;
@@ -134,7 +134,7 @@ main (void)
   Suite   *s;
   SRunner *sr;
 
-  s = stack_suite ();
+  s = check_stack_suite ();
   sr = srunner_create (s);
 
   srunner_run_all (sr, CK_NORMAL);
