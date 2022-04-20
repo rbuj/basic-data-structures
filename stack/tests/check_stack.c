@@ -83,6 +83,12 @@ START_TEST (test_stack_is_full_null)
   is_full (stack);
 }
 
+START_TEST (test_stack_peek_null)
+{
+  ck_assert (stack == NULL);
+  (void) peek (stack);
+}
+
 START_TEST (test_stack_pop_null)
 {
   ck_assert (stack == NULL);
@@ -113,6 +119,7 @@ stack_suite (void)
   tcase_add_test              (tc_null_check, test_stack_destroy_null);
   tcase_add_test_raise_signal (tc_null_check, test_stack_is_empty_null, SIGABRT);
   tcase_add_test_raise_signal (tc_null_check, test_stack_is_full_null, SIGABRT);
+  tcase_add_test_raise_signal (tc_null_check, test_stack_peek_null, SIGABRT);
   tcase_add_test_raise_signal (tc_null_check, test_stack_pop_null, SIGABRT);
   tcase_add_test_raise_signal (tc_null_check, test_stack_push_null, SIGABRT);
   suite_add_tcase (s, tc_null_check);
