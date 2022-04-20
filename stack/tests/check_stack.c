@@ -18,6 +18,7 @@
 
 #include <stdlib.h>
 #include <signal.h>
+#include <limits.h>
 #include <check.h>
 #include "../src/stack.h"
 
@@ -100,6 +101,18 @@ START_TEST (test_stack_is_full_empty)
   ck_assert (!stack_is_full (stack));
 }
 
+START_TEST (test_stack_peek_empty)
+{
+  ck_assert (stack_is_empty (stack));
+  ck_assert (stack_peek (stack) == INT_MIN);
+}
+
+START_TEST (test_stack_pop_empty)
+{
+  ck_assert (stack_is_empty (stack));
+  ck_assert (stack_pop (stack) == INT_MIN);
+}
+
 /* tc_null_check */
 
 START_TEST (test_stack_destroy_null)
@@ -159,6 +172,8 @@ check_stack_suite (void)
   tcase_add_test (tc_core, test_stack_clean_empty);
   tcase_add_test (tc_core, test_stack_is_full);
   tcase_add_test (tc_core, test_stack_is_full_empty);
+  tcase_add_test (tc_core, test_stack_peek_empty);
+  tcase_add_test (tc_core, test_stack_pop_empty);
   suite_add_tcase (s, tc_core);
 
   tc_null_check = tcase_create("Null");
