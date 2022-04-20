@@ -62,7 +62,6 @@ stack_clean (Stack *stack)
   stack->top = -1;
 }
 
-
 int
 stack_is_full (Stack *stack)
 {
