@@ -38,7 +38,7 @@ teardown (void)
   stack_destroy (&stack);
 }
 
-START_TEST (test_stack_create)
+START_TEST (test_stack)
 {
   ck_assert (stack_is_empty (stack));
   ck_assert (!stack_is_full (stack));
@@ -167,7 +167,7 @@ check_stack_suite (void)
 
   tc_core = tcase_create ("Core");
   tcase_add_checked_fixture (tc_core, setup, teardown);
-  tcase_add_test (tc_core, test_stack_create);
+  tcase_add_test (tc_core, test_stack);
   tcase_add_test (tc_core, test_stack_clean);
   tcase_add_test (tc_core, test_stack_clean_empty);
   tcase_add_test (tc_core, test_stack_is_full);
