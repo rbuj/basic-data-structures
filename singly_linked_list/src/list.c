@@ -42,7 +42,7 @@ create_node (int   value,
 }
 
 List *
-create (void)
+list_create (void)
 {
   List *list = (List *) malloc( sizeof (List));
   list->head = NULL;
@@ -50,7 +50,7 @@ create (void)
 }
 
 void
-destroy (List **list)
+list_destroy (List **list)
 {
   Node *ptr;
 
@@ -59,7 +59,7 @@ destroy (List **list)
 
   ptr = (*list)->head;
   while (ptr != NULL) {
-    (void) remove_first (*list);
+    (void) list_remove_first (*list);
     ptr = (*list)->head;
   }
   free (*list);
@@ -67,18 +67,18 @@ destroy (List **list)
 }
 
 void
-add_to_beginning (List *list,
+list_add_to_beginning (List *list,
                   int   value)
 {
   list->head = create_node (value, list->head);
 }
 
 void
-add (List *list,
-     int   value)
+list_add (List *list,
+          int   value)
 {
   if (list->head == NULL) {
-    add_to_beginning (list, value);
+    list_add_to_beginning (list, value);
   } else {
     Node *ptr = list->head;
     while (ptr->next != NULL)
@@ -88,7 +88,7 @@ add (List *list,
 }
 
 int
-remove_first (List *list)
+list_remove_first (List *list)
 {
   int ret = -1;
 
@@ -103,7 +103,7 @@ remove_first (List *list)
 }
 
 int
-remove_last (List *list)
+list_remove_last (List *list)
 {
   int ret = -1;
 
@@ -126,7 +126,7 @@ remove_last (List *list)
 }
 
 void
-print_list (List *list)
+list_print (List *list)
 {
   Node *ptr;
 

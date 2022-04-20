@@ -22,12 +22,12 @@
 typedef struct List List;
 typedef struct Node Node;
 
-List * create           (void);
-void   destroy          (List **list);
-void   add_to_beginning (List  *list, int value);
-void   add              (List  *list, int value);
-int    remove_first     (List  *list);
-int    remove_last      (List  *list);
-void   print_list       (List  *list);
+List * list_create           (void);
+void   list_destroy          (List **list);
+void   list_add_to_beginning (List  *list, int value);
+void   list_add              (List  *list, int value);
+int    list_remove_first     (List  *list);
+int    list_remove_last      (List  *list);
+void   list_print            (List  *list);
 
 #endif /* LIST_H */

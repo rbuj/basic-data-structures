@@ -25,18 +25,18 @@ main (void)
 {
   List *list;
 
-  list = create ();
-  add (list, 2);
-  add (list, 3);
-  add (list, 4);
-  add (list, 5);
-  add (list, 6);
-  add_to_beginning (list, 1);
-  remove_last (list);
+  list = list_create ();
+  list_add (list, 2);
+  list_add (list, 3);
+  list_add (list, 4);
+  list_add (list, 5);
+  list_add (list, 6);
+  list_add_to_beginning (list, 1);
+  list_remove_last (list);
 
-  print_list (list);
+  list_print (list);
 
-  destroy (&list);
+  list_destroy (&list);
 
   return EXIT_SUCCESS;
 }
