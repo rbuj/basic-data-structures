@@ -182,6 +182,7 @@ list_remove_first (List *list)
   ret = list->head->value;
   free (list->head);
   list->head = ptr;
+  list->size--;
 
   return ret;
 }
