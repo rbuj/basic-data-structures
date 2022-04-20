@@ -65,8 +65,10 @@ stack_clean (Stack *stack)
 int
 stack_is_full (Stack *stack)
 {
-  if (stack == NULL)
+  if (stack == NULL) {
+    fprintf (stderr, "The stack is NULL.\n");
     raise (SIGABRT);
+  }
 
   return stack->top == stack->capacity - 1;
 }
@@ -74,8 +76,10 @@ stack_is_full (Stack *stack)
 int
 stack_is_empty (Stack *stack)
 {
-  if (stack == NULL)
+  if (stack == NULL) {
+    fprintf (stderr, "The stack is NULL.\n");
     raise (SIGABRT);
+  }
 
   return stack->top == -1;
 }
@@ -84,8 +88,10 @@ void
 stack_push (Stack *stack,
             int    value)
 {
-  if (stack_is_full (stack))
-    return;
+  if (stack_is_full (stack)) {
+    fprintf (stderr, "The stack is full.\n");
+    raise (SIGABRT);
+  }
 
   stack->array[++stack->top] = value;
 }
@@ -110,8 +116,10 @@ stack_reverse (Stack **stack_ptr)
   Stack *rev;
   Stack *stack;
 
-  if (*stack_ptr == NULL)
+  if (*stack_ptr == NULL) {
+    fprintf (stderr, "The stack is NULL.\n");
     raise (SIGABRT);
+  }
 
   stack = *stack_ptr;
   rev = stack_create (stack->capacity);
