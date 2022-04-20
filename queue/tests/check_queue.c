@@ -75,6 +75,12 @@ START_TEST (test_queue_is_full)
   ck_assert (queue_is_full (queue));
 }
 
+START_TEST (test_queue_clean_empty)
+{
+  ck_assert (queue_is_empty (queue));
+  queue_clean (queue);
+}
+
 /* tc_null_check */
 
 START_TEST (test_queue_clean_null)
@@ -137,6 +143,7 @@ check_queue_suite (void)
   tc_core = tcase_create ("Core");
   tcase_add_checked_fixture (tc_core, setup, teardown);
   tcase_add_test (tc_core, test_queue_clean);
+  tcase_add_test (tc_core, test_queue_clean_empty);
   tcase_add_test (tc_core, test_queue_create);
   tcase_add_test (tc_core, test_queue_is_full);
   suite_add_tcase (s, tc_core);

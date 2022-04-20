@@ -62,8 +62,8 @@ queue_destroy (Queue **queue_ptr)
 void
 queue_clean (Queue *queue)
 {
-  if (queue == NULL)
-    raise (SIGABRT);
+  if (queue_is_empty (queue))
+    return;
 
   queue->rear = queue->capacity - 1;
   queue->size = 0;
