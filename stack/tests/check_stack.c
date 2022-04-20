@@ -21,12 +21,14 @@
 #include <check.h>
 #include "../src/stack.h"
 
+#define STACK_CAPACITY 10
+
 Stack *stack = NULL;
 
 void
 setup (void)
 {
-  stack = stack_create (3);
+  stack = stack_create (STACK_CAPACITY);
 }
 
 void
@@ -50,7 +52,8 @@ START_TEST (test_stack_create)
   stack_push (stack, 30);
   ck_assert_int_eq (stack_peek (stack), 30);
 
-  ck_assert (stack_is_full (stack));
+  ck_assert (!stack_is_empty (stack));
+  ck_assert (!stack_is_full (stack));
 
   ck_assert_int_eq (stack_pop (stack), 30);
   ck_assert_int_eq (stack_peek (stack), 20);
@@ -63,6 +66,34 @@ START_TEST (test_stack_create)
   ck_assert (stack_is_empty (stack));
 }
 
+START_TEST (test_stack_clean)
+{
+  int i;
+
+  ck_assert (stack_is_empty (stack));
+  for (i = 0; i < STACK_CAPACITY; i++)
+    stack_push (stack, i);
+  stack_clean (stack);
+  for (i = 0; i < STACK_CAPACITY; i++)
+    stack_push (stack, i);
+}
+
+START_TEST (test_stack_clean_empty)
+{
+  ck_assert (stack_is_empty (stack));
+  stack_clean (stack);
+}
+
+START_TEST (test_stack_is_full)
+{
+  int i;
+
+  ck_assert (stack_is_empty (stack));
+  for (i = 0; i < STACK_CAPACITY; i++)
+    stack_push (stack, i);
+  stack_is_full (stack);
+}
+
 /* tc_null_check */
 
 START_TEST (test_stack_destroy_null)
@@ -71,6 +102,11 @@ START_TEST (test_stack_destroy_null)
   stack_destroy (&stack);
 }
 
+START_TEST (test_stack_clean_null)
+{
+  ck_assert (stack == NULL);
+  stack_clean (stack);
+}
 START_TEST (test_stack_is_empty_null)
 {
   ck_assert (stack == NULL);
@@ -113,10 +149,14 @@ check_stack_suite (void)
   tc_core = tcase_create ("Core");
   tcase_add_checked_fixture (tc_core, setup, teardown);
   tcase_add_test (tc_core, test_stack_create);
+  tcase_add_test (tc_core, test_stack_clean);
+  tcase_add_test (tc_core, test_stack_clean_empty);
+  tcase_add_test (tc_core, test_stack_is_full);
   suite_add_tcase (s, tc_core);
 
   tc_null_check = tcase_create("Null");
   tcase_add_test              (tc_null_check, test_stack_destroy_null);
+  tcase_add_test_raise_signal (tc_null_check, test_stack_clean_null, SIGABRT);
   tcase_add_test_raise_signal (tc_null_check, test_stack_is_empty_null, SIGABRT);
   tcase_add_test_raise_signal (tc_null_check, test_stack_is_full_null, SIGABRT);
   tcase_add_test_raise_signal (tc_null_check, test_stack_peek_null, SIGABRT);

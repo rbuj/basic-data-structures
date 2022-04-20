@@ -53,6 +53,16 @@ stack_destroy (Stack **stack_ptr)
   }
 }
 
+void
+stack_clean (Stack *stack)
+{
+  if (stack_is_empty (stack))
+    return;
+
+  stack->top = -1;
+}
+
+
 int
 stack_is_full (Stack *stack)
 {

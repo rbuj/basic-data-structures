@@ -23,6 +23,8 @@ typedef struct Stack Stack;
 
 Stack * stack_create   (unsigned   capacity);
 void    stack_destroy  (Stack    **stack_ptr);
+
+void    stack_clean    (Stack     *stack);
 int     stack_is_full  (Stack     *stack);
 int     stack_is_empty (Stack     *stack);
 void    stack_push     (Stack     *stack,
