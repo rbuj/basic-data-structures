@@ -68,12 +68,9 @@ START_TEST (test_stack_create)
 
 START_TEST (test_stack_clean)
 {
-  int i;
-
   ck_assert (stack_is_empty (stack));
-  for (i = 0; i < STACK_CAPACITY; i++)
-    stack_push (stack, i);
-  ck_assert (stack_is_full (stack));
+  stack_push (stack, 10);
+  ck_assert (!stack_is_empty (stack));
   stack_clean (stack);
   ck_assert (stack_is_empty (stack));
 }

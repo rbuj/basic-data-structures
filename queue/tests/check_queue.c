@@ -40,14 +40,11 @@ teardown (void)
 
 START_TEST (test_queue_clean)
 {
-  int i;
-
-  ck_assert (!queue_is_full (queue));
-  for (i = 0; i < QUEUE_CAPACITY - 1; i++)
-    queue_enqueue (queue, i);
+  ck_assert (queue_is_empty (queue));
+  queue_enqueue (queue, 10);
+  ck_assert (!queue_is_empty (queue));
   queue_clean (queue);
-  queue_enqueue (queue, i + 1);
-  ck_assert (!queue_is_full (queue));
+  ck_assert (queue_is_empty (queue));
 }
 
 START_TEST (test_queue_clean_empty)
