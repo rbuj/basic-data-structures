@@ -50,6 +50,13 @@ START_TEST (test_queue_clean)
   ck_assert (!queue_is_full (queue));
 }
 
+START_TEST (test_queue_clean_empty)
+{
+  ck_assert (queue_is_empty (queue));
+  queue_clean (queue);
+  ck_assert (queue_is_empty (queue));
+}
+
 START_TEST (test_queue_create)
 {
   ck_assert (queue_is_empty (queue));
@@ -69,16 +76,18 @@ START_TEST (test_queue_is_full)
 {
   int i;
 
-  ck_assert (!queue_is_full (queue));
-  for (i = 0; i < QUEUE_CAPACITY; i++)
+  ck_assert (queue_is_empty (queue));
+  for (i = 0; i < QUEUE_CAPACITY; i++) {
+    ck_assert (!queue_is_full (queue));
     queue_enqueue (queue, i);
+  }
   ck_assert (queue_is_full (queue));
 }
 
-START_TEST (test_queue_clean_empty)
+START_TEST (test_queue_is_full_empty)
 {
   ck_assert (queue_is_empty (queue));
-  queue_clean (queue);
+  ck_assert (!queue_is_full (queue));
 }
 
 /* tc_null_check */
@@ -146,12 +155,13 @@ check_queue_suite (void)
   tcase_add_test (tc_core, test_queue_clean_empty);
   tcase_add_test (tc_core, test_queue_create);
   tcase_add_test (tc_core, test_queue_is_full);
+  tcase_add_test (tc_core, test_queue_is_full_empty);
   suite_add_tcase (s, tc_core);
 
   tc_null_check = tcase_create("Null");
+  tcase_add_test              (tc_null_check, test_queue_destroy_null);
   tcase_add_test_raise_signal (tc_null_check, test_queue_clean_null, SIGABRT);
   tcase_add_test_raise_signal (tc_null_check, test_queue_dequeue_null, SIGABRT);
-  tcase_add_test              (tc_null_check, test_queue_destroy_null);
   tcase_add_test_raise_signal (tc_null_check, test_queue_enqueue_null, SIGABRT);
   tcase_add_test_raise_signal (tc_null_check, test_queue_front_null, SIGABRT);
   tcase_add_test_raise_signal (tc_null_check, test_queue_is_full_null, SIGABRT);

@@ -73,15 +73,16 @@ START_TEST (test_stack_clean)
   ck_assert (stack_is_empty (stack));
   for (i = 0; i < STACK_CAPACITY; i++)
     stack_push (stack, i);
+  ck_assert (stack_is_full (stack));
   stack_clean (stack);
-  for (i = 0; i < STACK_CAPACITY; i++)
-    stack_push (stack, i);
+  ck_assert (stack_is_empty (stack));
 }
 
 START_TEST (test_stack_clean_empty)
 {
   ck_assert (stack_is_empty (stack));
   stack_clean (stack);
+  ck_assert (stack_is_empty (stack));
 }
 
 START_TEST (test_stack_is_full)
@@ -89,9 +90,17 @@ START_TEST (test_stack_is_full)
   int i;
 
   ck_assert (stack_is_empty (stack));
-  for (i = 0; i < STACK_CAPACITY; i++)
+  for (i = 0; i < STACK_CAPACITY; i++) {
+    ck_assert (!stack_is_full (stack));
     stack_push (stack, i);
-  stack_is_full (stack);
+  }
+  ck_assert (stack_is_full (stack));
+}
+
+START_TEST (test_stack_is_full_empty)
+{
+  ck_assert (stack_is_empty (stack));
+  ck_assert (!stack_is_full (stack));
 }
 
 /* tc_null_check */
@@ -152,6 +161,7 @@ check_stack_suite (void)
   tcase_add_test (tc_core, test_stack_clean);
   tcase_add_test (tc_core, test_stack_clean_empty);
   tcase_add_test (tc_core, test_stack_is_full);
+  tcase_add_test (tc_core, test_stack_is_full_empty);
   suite_add_tcase (s, tc_core);
 
   tc_null_check = tcase_create("Null");
