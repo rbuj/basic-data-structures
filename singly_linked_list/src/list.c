@@ -18,34 +18,69 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
+#include <signal.h>
+
 #include "list.h"
 
 struct Node
 {
-  int value;
+  int   value;
   Node *next;
 };
 
 struct List
 {
   Node *head;
+  int   size;
 };
 
 static Node *
-create_node (int   value,
+node_create (int   value,
              Node *next_node)
 {
-  Node *new_node = (Node *) malloc (sizeof (Node));
+  Node *new_node;
+
+  new_node = (Node *) malloc (sizeof (Node));
   new_node->value = value;
   new_node->next = next_node;
   return new_node;
 }
 
+static Node *
+node_last (List *list)
+{
+    Node *it;
+
+    it = list->head;
+    while (it->next != NULL)
+      it = it->next;
+    return it;
+}
+
+static Node *
+node_get (List *list,
+          int   index)
+{
+  Node *it;
+  int   count = 0;
+
+  it = list->head;
+  while ((index != count) && it) {
+    count++;
+    it = it->next;
+  }
+  return it;
+}
+
 List *
 list_create (void)
 {
-  List *list = (List *) malloc( sizeof (List));
+  List *list;
+
+  list = (List *) malloc( sizeof (List));
   list->head = NULL;
+  list->size = 0;
   return list;
 }
 
@@ -68,36 +103,85 @@ list_destroy (List **list)
 
 void
 list_add_to_beginning (List *list,
-                  int   value)
+                       int   value)
 {
-  list->head = create_node (value, list->head);
+  if (list == NULL)
+    raise (SIGABRT);
+
+  list->head = node_create (value, list->head);
+  list->size++;
 }
 
 void
 list_add (List *list,
           int   value)
 {
+  if (list == NULL)
+    raise (SIGABRT);
+
   if (list->head == NULL) {
     list_add_to_beginning (list, value);
   } else {
-    Node *ptr = list->head;
-    while (ptr->next != NULL)
-      ptr = ptr->next;
-    ptr->next = create_node (value, NULL);
+    (node_last (list))->next = node_create (value, NULL);
+    list->size++;
   }
+}
+
+int
+list_find (List  *list,
+           int    value)
+{
+  Node *it;
+  int   count = 0;
+
+  if (list == NULL)
+    raise (SIGABRT);
+
+  it = list->head;
+  while (it && (it->value != value)) {
+    count++;
+    it = it->next;
+  }
+  if (it)
+    return count;
+  return INT_MIN;
+}
+
+int
+list_get (List  *list,
+          int    index)
+{
+  int   value;
+  Node *it;
+
+  if (list == NULL)
+    raise (SIGABRT);
+
+  if (index >= list->size)
+    raise (SIGABRT);
+
+  if (it = node_get (list, index))
+    return it->value;
+
+  return INT_MIN;
 }
 
 int
 list_remove_first (List *list)
 {
-  int ret = -1;
+  int   ret;
+  Node *ptr;
 
-  if (list != NULL && list->head != NULL) {
-    Node *ptr = list->head->next;
-    ret = list->head->value;
-    free (list->head);
-    list->head = ptr;
-  }
+  if (list == NULL)
+    raise (SIGABRT);
+
+  if (list->head == NULL)
+    raise (SIGABRT);
+
+  ptr = list->head->next;
+  ret = list->head->value;
+  free (list->head);
+  list->head = ptr;
 
   return ret;
 }
@@ -105,41 +189,69 @@ list_remove_first (List *list)
 int
 list_remove_last (List *list)
 {
-  int ret = -1;
+  int ret;
 
-  if (list != NULL && list->head != NULL) {
-    if (list->head->next == NULL) {
-      ret = list->head->value;
-      free (list->head);
-      list->head = NULL;
-    } else {
-      Node *ptr = list->head;
-      while (ptr->next->next != NULL)
-        ptr = ptr->next;
-      ret = ptr->next->value;
-      free (ptr->next);
-      ptr->next = NULL;
-    }
+  if (list == NULL)
+    raise (SIGABRT);
+
+  if (list->head == NULL)
+    raise (SIGABRT);
+
+  if (list->head->next == NULL) {
+    ret = list_remove_first (list);
+  } else {
+    Node *ptr = list->head;
+    while (ptr->next->next != NULL)
+      ptr = ptr->next;
+    ret = ptr->next->value;
+    free (ptr->next);
+    ptr->next = NULL;
+    list->size--;
   }
-
   return ret;
+}
+
+void
+list_set (List  *list,
+          int    index,
+          int    value)
+{
+  Node *it;
+
+  if (list == NULL)
+    raise (SIGABRT);
+
+  if (index >= list->size)
+    raise (SIGABRT);
+
+  if (it = node_get (list, index))
+    it->value = value;
+}
+
+int
+list_size (List  *list)
+{
+  if (list == NULL)
+    raise (SIGABRT);
+
+  return list->size;
 }
 
 void
 list_print (List *list)
 {
-  Node *ptr;
+  Node *it;
 
   if (list == NULL)
-    return;
+    raise (SIGABRT);
 
   printf (" nodes: [");
-  ptr = list->head;
-  while (ptr != NULL) {
-    printf (" %d", ptr->value);
-    if (ptr->next)
+  it = list->head;
+  while (it != NULL) {
+    printf (" %d", it->value);
+    if (it->next)
       printf (",");
-    ptr = ptr->next;
+    it = it->next;
   }
   printf (" ]\n");
 }
