@@ -19,6 +19,8 @@
 #include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <signal.h>
+
 #include "queue.h"
 
 struct Queue
@@ -60,22 +62,29 @@ destroy (Queue **queue_ptr)
 void
 clean (Queue *queue)
 {
-  if (queue) {
-    queue->rear = queue->capacity - 1;
-    queue->size = 0;
-    queue->front = 0;
-  }
+  if (queue == NULL)
+    raise (SIGABRT);
+
+  queue->rear = queue->capacity - 1;
+  queue->size = 0;
+  queue->front = 0;
 }
 
 int
 is_full (Queue *queue)
 {
+  if (queue == NULL)
+    raise (SIGABRT);
+
   return queue->size == queue->capacity;
 }
 
 int
 is_empty (Queue *queue)
 {
+  if (queue == NULL)
+    raise (SIGABRT);
+
   return queue->size == 0;
 }
 
