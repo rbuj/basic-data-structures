@@ -31,7 +31,17 @@ struct List
   Node *head;
 };
 
-List*
+static Node *
+create_node (int   value,
+             Node *next_node)
+{
+  Node *new_node = (Node *) malloc (sizeof (Node));
+  new_node->value = value;
+  new_node->next = next_node;
+  return new_node;
+}
+
+List *
 create (void)
 {
   List *list = (List *) malloc( sizeof (List));
@@ -60,10 +70,7 @@ void
 add_to_beginning (List *list,
                   int   value)
 {
-  Node *new_node = (Node *) malloc( sizeof (Node));
-  new_node->value = value;
-  new_node->next = list->head;
-  list->head = new_node;
+  list->head = create_node (value, list->head);
 }
 
 void
@@ -76,9 +83,7 @@ add (List *list,
     Node *ptr = list->head;
     while (ptr->next != NULL)
       ptr = ptr->next;
-    ptr->next = (Node *) malloc (sizeof (Node));
-    ptr->next->value = value;
-    ptr->next->next = NULL;
+    ptr->next = create_node (value, NULL);
   }
 }
 
