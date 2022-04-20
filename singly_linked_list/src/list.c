@@ -157,7 +157,7 @@ list_get (List  *list,
   if (list == NULL)
     raise (SIGABRT);
 
-  if (index >= list->size)
+  if ((index >= list->size) || (index < 0))
     raise (SIGABRT);
 
   if (it = node_get (list, index))
@@ -222,7 +222,7 @@ list_set (List  *list,
   if (list == NULL)
     raise (SIGABRT);
 
-  if (index >= list->size)
+  if ((index >= list->size) || (index < 0))
     raise (SIGABRT);
 
   if (it = node_get (list, index))
