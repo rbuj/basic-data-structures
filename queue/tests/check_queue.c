@@ -44,7 +44,7 @@ START_TEST (test_queue_clean)
 
   ck_assert (!queue_is_full (queue));
   for (i = 0; i < QUEUE_CAPACITY - 1; i++)
-	  queue_enqueue (queue, i);
+    queue_enqueue (queue, i);
   queue_clean (queue);
   queue_enqueue (queue, i + 1);
   ck_assert (!queue_is_full (queue));
