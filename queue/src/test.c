@@ -23,15 +23,18 @@
 int
 main (void)
 {
-  Queue *queue = NULL;
-  unsigned i;
-  unsigned depth = 20;
+  Queue    *queue;
+  unsigned  i;
+  unsigned  depth = 20;
 
   queue = create (depth);
+
   for (i = 0; i < depth; i++)
     enqueue (queue, (int) i);
+
   for (i = 0; i < depth; i++)
     printf ("%d\n", dequeue (queue));
+
   destroy (&queue);
 
   return EXIT_SUCCESS;
