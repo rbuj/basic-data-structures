@@ -120,6 +120,13 @@ START_TEST (test_list_is_empty_null)
   list_is_empty (list);
 }
 
+START_TEST (test_list_remove_at_null)
+{
+  ck_assert (list == NULL);
+  (void) list_remove_at (list, 0);
+}
+
+
 START_TEST (test_list_remove_first_null)
 {
   ck_assert (list == NULL);
@@ -169,6 +176,7 @@ check_list_suite (void)
   tcase_add_test_raise_signal (tc_null_check, test_list_insert_at_end_null, SIGABRT);
   tcase_add_test_raise_signal (tc_null_check, test_list_insert_at_null, SIGABRT);
   tcase_add_test_raise_signal (tc_null_check, test_list_is_empty_null, SIGABRT);
+  tcase_add_test_raise_signal (tc_null_check, test_list_remove_at_null, SIGABRT);
   tcase_add_test_raise_signal (tc_null_check, test_list_remove_first_null, SIGABRT);
   tcase_add_test_raise_signal (tc_null_check, test_list_remove_last_null, SIGABRT);
   tcase_add_test_raise_signal (tc_null_check, test_list_set_null, SIGABRT);
