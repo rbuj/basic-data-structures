@@ -63,16 +63,47 @@ START_TEST (test_list_get_empty)
   (void) list_get (list, 0);
 }
 
+START_TEST (test_list_get_negative_index)
+{
+  ck_assert (list_is_empty (list));
+  list_insert_at_beginning (list, 3);
+  list_insert_at_beginning (list, 2);
+  list_insert_at_beginning (list, 1);
+  ck_assert_int_eq (list_size (list), 3);
+  (void) list_get (list, -1);
+}
+
+START_TEST (test_list_get_out_of_bounds)
+{
+  ck_assert (list_is_empty (list));
+  list_insert_at_beginning (list, 3);
+  list_insert_at_beginning (list, 2);
+  list_insert_at_beginning (list, 1);
+  ck_assert_int_eq (list_size (list), 3);
+  (void) list_get (list, 3);
+}
+
 START_TEST (test_list_insert_at_negative_index)
 {
   ck_assert (list_is_empty (list));
+  list_insert_at_beginning (list, 3);
+  list_insert_at_beginning (list, 2);
+  list_insert_at_beginning (list, 1);
+  ck_assert (!list_is_empty (list));
   list_insert_at (list, -1, 1);
 }
 
 START_TEST (test_list_insert_at_out_of_bounds)
 {
   ck_assert (list_is_empty (list));
-  list_insert_at (list, 1, 1);
+  list_insert_at_beginning (list, 3);
+  list_insert_at_beginning (list, 2);
+  list_insert_at_beginning (list, 1);
+  ck_assert_int_eq (list_size (list), 3);
+  list_insert_at (list, 3, 4);
+  ck_assert_int_eq (list_get (list, 3), 4);
+  ck_assert_int_eq (list_size (list), 4);
+  list_insert_at (list, 5, 6);
 }
 
 START_TEST (test_list_insert_at_zero_index)
@@ -85,8 +116,6 @@ START_TEST (test_list_insert_at_zero_index)
 START_TEST (test_list_insert_at_zero_index_empty)
 {
   ck_assert (list_is_empty (list));
-  list_insert_at (list, 0, 2);
-  ck_assert_int_eq (list_get (list, 0), 2);
   list_insert_at (list, 0, 1);
   ck_assert_int_eq (list_get (list, 0), 1);
 }
@@ -106,8 +135,20 @@ START_TEST (test_list_remove_at_empty)
 
 START_TEST (test_list_remove_at_negative_index)
 {
-  ck_assert (list_is_empty (list));
+  list_insert_at_beginning (list, 3);
+  list_insert_at_beginning (list, 2);
+  list_insert_at_beginning (list, 1);
+  ck_assert_int_eq (list_size (list), 3);
   (void) list_remove_at (list, -1);
+}
+
+START_TEST (test_list_remove_at_out_of_bounds)
+{
+  list_insert_at_beginning (list, 3);
+  list_insert_at_beginning (list, 2);
+  list_insert_at_beginning (list, 1);
+  ck_assert_int_eq (list_size (list), 3);
+  (void) list_remove_at (list, 3);
 }
 
 START_TEST (test_list_remove_first_empty)
@@ -122,6 +163,20 @@ START_TEST (test_list_remove_last_empty)
   (void) list_remove_last (list);
 }
 
+START_TEST (test_list_set)
+{
+  list_insert_at_beginning (list, 3);
+  list_insert_at_beginning (list, 2);
+  list_insert_at_beginning (list, 1);
+  ck_assert_int_eq (list_size (list), 3);
+  list_set (list, 0, 10);
+  ck_assert_int_eq (list_get (list, 0), 10);
+  list_set (list, 1, 7);
+  ck_assert_int_eq (list_get (list, 1), 7);
+  list_set (list, 2, 20);
+  ck_assert_int_eq (list_get (list, 2), 20);
+}
+
 START_TEST (test_list_set_empty)
 {
   ck_assert (list_is_empty (list));
@@ -130,13 +185,18 @@ START_TEST (test_list_set_empty)
 
 START_TEST (test_list_set_negative_index)
 {
-  ck_assert (list_is_empty (list));
+  list_insert_at_beginning (list, 3);
+  list_insert_at_beginning (list, 2);
+  list_insert_at_beginning (list, 1);
+  ck_assert_int_eq (list_size (list), 3);
   list_set (list, -1, 1);
 }
 
-START_TEST (test_list_out_of_bounds)
+START_TEST (test_list_set_out_of_bounds)
 {
-  ck_assert (list_is_empty (list));
+  list_insert_at_beginning (list, 10);
+  ck_assert (!list_is_empty (list));
+  ck_assert_int_eq (list_size (list), 1);
   list_set (list, 1, 1);
 }
 
@@ -218,16 +278,20 @@ check_list_suite (void)
   tcase_add_test              (tc_core, test_list_find_empty);
   tcase_add_test              (tc_core, test_list_insert_at_zero_index);
   tcase_add_test              (tc_core, test_list_insert_at_zero_index_empty);
+  tcase_add_test              (tc_core, test_list_set);
   tcase_add_test_raise_signal (tc_core, test_list_get_empty, SIGABRT);
+  tcase_add_test_raise_signal (tc_core, test_list_get_negative_index, SIGABRT);
+  tcase_add_test_raise_signal (tc_core, test_list_get_out_of_bounds, SIGABRT);
   tcase_add_test_raise_signal (tc_core, test_list_insert_at_negative_index, SIGABRT);
   tcase_add_test_raise_signal (tc_core, test_list_insert_at_out_of_bounds, SIGABRT);
   tcase_add_test_raise_signal (tc_core, test_list_remove_at_empty, SIGABRT);
   tcase_add_test_raise_signal (tc_core, test_list_remove_at_negative_index, SIGABRT);
+  tcase_add_test_raise_signal (tc_core, test_list_remove_at_out_of_bounds, SIGABRT);
   tcase_add_test_raise_signal (tc_core, test_list_remove_first_empty, SIGABRT);
   tcase_add_test_raise_signal (tc_core, test_list_remove_last_empty, SIGABRT);
   tcase_add_test_raise_signal (tc_core, test_list_set_empty, SIGABRT);
   tcase_add_test_raise_signal (tc_core, test_list_set_negative_index, SIGABRT);
-  tcase_add_test_raise_signal (tc_core, test_list_out_of_bounds, SIGABRT);
+  tcase_add_test_raise_signal (tc_core, test_list_set_out_of_bounds, SIGABRT);
   suite_add_tcase (s, tc_core);
 
   tc_null_check = tcase_create ("Null");

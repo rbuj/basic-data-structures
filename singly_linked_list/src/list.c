@@ -184,12 +184,16 @@ list_insert_at (List *list,
   if ((list->head == NULL) || (index == 0)) {
     list->head = node_create (value, list->head);
   } else {
-    int   i;
-    Node *ptr;
+    if (index == list->size) {
+      node_get_tail (list->head)->next = node_create (value, NULL);
+    } else {
+      int   i;
+      Node *ptr;
 
-    for (i = 0; i < index - 1; i++)
-      ptr = ptr->next;
-    ptr->next = node_create (value, ptr->next);
+      for (i = 0; i < index - 1; i++)
+        ptr = ptr->next;
+      ptr->next = node_create (value, ptr->next);
+    }
   }
   list->size++;
 }
