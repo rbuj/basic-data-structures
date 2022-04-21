@@ -41,10 +41,10 @@ START_TEST (test_list)
 {
   ck_assert (list_is_empty (list));
 
-  list_add (list, 20);
+  list_insert_at_end (list, 20);
   ck_assert (!list_is_empty (list));
 
-  list_add_to_beginning (list, 10);
+  list_insert_at_beginning (list, 10);
 
   ck_assert_int_eq (list_remove_first (list), 10);
   ck_assert_int_eq (list_remove_first (list), 20);
@@ -66,7 +66,7 @@ START_TEST (test_list_get_empty)
 START_TEST (test_list_is_empty)
 {
   ck_assert (list_is_empty (list));
-  list_add (list, 20);
+  list_insert_at_end (list, 20);
   ck_assert (!list_is_empty (list));
 }
 
@@ -96,22 +96,28 @@ START_TEST (test_list_destroy_null)
   list_destroy (&list);
 }
 
+START_TEST (test_list_insert_at_beginning_null)
+{
+  ck_assert (list == NULL);
+  list_insert_at_beginning (list, 1);
+}
+
+START_TEST (test_list_insert_at_end_null)
+{
+  ck_assert (list == NULL);
+  list_insert_at_end (list, 1);
+}
+
+START_TEST (test_list_insert_at_null)
+{
+  ck_assert (list == NULL);
+  list_insert_at (list, 0, 1);
+}
+
 START_TEST (test_list_is_empty_null)
 {
   ck_assert (list == NULL);
   list_is_empty (list);
-}
-
-START_TEST (test_list_add_null)
-{
-  ck_assert (list == NULL);
-  list_add (list, 1);
-}
-
-START_TEST (test_list_add_to_beginning_null)
-{
-  ck_assert (list == NULL);
-  list_add_to_beginning (list, 1);
 }
 
 START_TEST (test_list_remove_first_null)
@@ -159,8 +165,9 @@ check_list_suite (void)
 
   tc_null_check = tcase_create ("Null");
   tcase_add_test              (tc_null_check, test_list_destroy_null);
-  tcase_add_test_raise_signal (tc_null_check, test_list_add_null, SIGABRT);
-  tcase_add_test_raise_signal (tc_null_check, test_list_add_to_beginning_null, SIGABRT);
+  tcase_add_test_raise_signal (tc_null_check, test_list_insert_at_beginning_null, SIGABRT);
+  tcase_add_test_raise_signal (tc_null_check, test_list_insert_at_end_null, SIGABRT);
+  tcase_add_test_raise_signal (tc_null_check, test_list_insert_at_null, SIGABRT);
   tcase_add_test_raise_signal (tc_null_check, test_list_is_empty_null, SIGABRT);
   tcase_add_test_raise_signal (tc_null_check, test_list_remove_first_null, SIGABRT);
   tcase_add_test_raise_signal (tc_null_check, test_list_remove_last_null, SIGABRT);

@@ -171,8 +171,26 @@ list_destroy (List **list)
 }
 
 void
-list_add_to_beginning (List *list,
-                       int   value)
+list_insert_at (List *list,
+                int   index,
+                int   value)
+{
+  if (list_is_empty (list)) {
+    list->head = node_create (value, list->head);
+  } else {
+    int   i;
+    Node *ptr;
+
+    for (i = 0; i < index - 1; i++)
+      ptr = ptr->next;
+    ptr->next = node_create (value, ptr->next);
+  }
+  list->size++;
+}
+
+void
+list_insert_at_beginning (List *list,
+                          int   value)
 {
   if (list == NULL)
     raise (SIGABRT);
@@ -182,18 +200,15 @@ list_add_to_beginning (List *list,
 }
 
 void
-list_add (List *list,
-          int   value)
+list_insert_at_end (List *list,
+                    int   value)
 {
-  if (list == NULL)
-    raise (SIGABRT);
-
-  if (list->head == NULL) {
-    list_add_to_beginning (list, value);
+  if (list_is_empty (list)) {
+    list->head = node_create (value, list->head);
   } else {
     node_get_tail (list->head)->next = node_create (value, NULL);
-    list->size++;
   }
+  list->size++;
 }
 
 void

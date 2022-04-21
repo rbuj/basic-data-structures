@@ -22,21 +22,22 @@
 typedef struct List List;
 typedef struct Node Node;
 
-List * list_create           (void);
-void   list_destroy          (List **list);
+List * list_create              (void);
+void   list_destroy             (List **list);
 
-void   list_add              (List  *list, int value);
-void   list_add_to_beginning (List  *list, int value);
-void   list_bubble_sort      (List  *list);
-int    list_find             (List  *list, int value);
-int    list_get              (List  *list, int index);
-int    list_is_empty         (List  *list);
-int    list_remove_at        (List  *list, int index);
-int    list_remove_first     (List  *list);
-int    list_remove_last      (List  *list);
-void   list_print            (List  *list);
-void   list_quick_sort       (List  *list);
-void   list_set              (List  *list, int index, int value);
-int    list_size             (List  *list);
+void   list_bubble_sort         (List  *list);
+int    list_find                (List  *list, int value);
+int    list_get                 (List  *list, int index);
+void   list_insert_at           (List  *list, int index, int value);
+void   list_insert_at_end       (List  *list, int value);
+void   list_insert_at_beginning (List  *list, int value);
+int    list_is_empty            (List  *list);
+int    list_remove_at           (List  *list, int index);
+int    list_remove_first        (List  *list);
+int    list_remove_last         (List  *list);
+void   list_print               (List  *list);
+void   list_quick_sort          (List  *list);
+void   list_set                 (List  *list, int index, int value);
+int    list_size                (List  *list);
 
 #endif /* LIST_H */

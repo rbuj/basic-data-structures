@@ -26,13 +26,13 @@ main (void)
   List *list;
 
   list = list_create ();
-  list_add (list, 2);
+  list_insert_at_end (list, 2);
   printf ("Index (2) : %d\n", list_find (list, 2));
-  list_add (list, 6);
-  list_add (list, 4);
-  list_add (list, 5);
-  list_add (list, 3);
-  list_add_to_beginning (list, 1);
+  list_insert_at_end (list, 6);
+  list_insert_at_end (list, 4);
+  list_insert_at_end (list, 5);
+  list_insert_at_end (list, 3);
+  list_insert_at_beginning (list, 1);
   printf ("Index (6) : %d\n", list_find (list, 6));
   printf ("Index (2) : %d\n", list_find (list, 2));
   printf ("Value (4) : %d\n", list_get (list, 4));
