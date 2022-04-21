@@ -17,6 +17,7 @@
  */
 
 #include <stdlib.h>
+#include <limits.h>
 #include <signal.h>
 #include <check.h>
 
@@ -48,6 +49,12 @@ START_TEST (test_list)
   ck_assert_int_eq (list_remove_first (list), 10);
   ck_assert_int_eq (list_remove_first (list), 20);
   ck_assert (list_is_empty (list));
+}
+
+START_TEST (list_find_empty)
+{
+  ck_assert (list_is_empty (list));
+  ck_assert_int_eq (list_find (list, 0), INT_MIN);
 }
 
 START_TEST (test_list_get_empty)
