@@ -175,7 +175,7 @@ list_insert_at (List *list,
                 int   index,
                 int   value)
 {
-  if (list_is_empty (list)) {
+  if (list_is_empty (list) || (index == 0)) {
     list->head = node_create (value, list->head);
   } else {
     int   i;
