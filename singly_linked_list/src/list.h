@@ -31,6 +31,7 @@ void   list_bubble_sort      (List  *list);
 int    list_find             (List  *list, int value);
 int    list_get              (List  *list, int index);
 int    list_is_empty         (List  *list);
+int    list_remove_at        (List  *list, int index);
 int    list_remove_first     (List  *list);
 int    list_remove_last      (List  *list);
 void   list_print            (List  *list);

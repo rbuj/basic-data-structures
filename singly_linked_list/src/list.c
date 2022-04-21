@@ -280,6 +280,39 @@ list_quick_sort (List *list)
 }
 
 int
+list_remove_at (List *list,
+                int   index)
+{
+  int   ret;
+  Node *ptr;
+
+  if (list_is_empty (list))
+    raise (SIGABRT);
+
+  if ((index >= list->size) || (index < 0))
+    raise (SIGABRT);
+
+  ptr = list->head;
+  if (index == 0) {
+    ret = list->head->value;
+    list->head = list->head->next;
+    free (ptr);
+  } else {
+    int   i;
+    Node *del;
+
+    for (i = 0; i < index - 1; i++)
+      ptr = ptr->next;
+    del = ptr->next;
+    ret = del->value;
+    ptr->next = ptr->next->next;
+    free (del);
+  }
+  list->size--;
+  return ret;
+}
+
+int
 list_remove_first (List *list)
 {
   int   ret;
@@ -288,12 +321,11 @@ list_remove_first (List *list)
   if (list_is_empty (list))
     raise (SIGABRT);
 
-  ptr = list->head->next;
+  ptr = list->head;
   ret = list->head->value;
-  free (list->head);
-  list->head = ptr;
+  list->head = list->head->next;
+  free (ptr);
   list->size--;
-
   return ret;
 }
 
@@ -306,7 +338,10 @@ list_remove_last (List *list)
     raise (SIGABRT);
 
   if (list->head->next == NULL) {
-    ret = list_remove_first (list);
+    ret = list->head->value;
+    free (list->head);
+    list->head = NULL;
+    list->size = 0;
   } else {
     Node *ptr = list->head;
     while (ptr->next->next != NULL)
