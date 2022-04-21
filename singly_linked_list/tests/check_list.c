@@ -51,7 +51,7 @@ START_TEST (test_list)
   ck_assert (list_is_empty (list));
 }
 
-START_TEST (list_find_empty)
+START_TEST (test_list_find_empty)
 {
   ck_assert (list_is_empty (list));
   ck_assert_int_eq (list_find (list, 0), INT_MIN);
@@ -150,6 +150,7 @@ check_list_suite (void)
   tc_core = tcase_create ("Core");
   tcase_add_checked_fixture   (tc_core, setup, teardown);
   tcase_add_test              (tc_core, test_list);
+  tcase_add_test              (tc_core, test_list_find_empty);
   tcase_add_test_raise_signal (tc_core, test_list_get_empty, SIGABRT);
   tcase_add_test_raise_signal (tc_core, test_list_remove_first_empty, SIGABRT);
   tcase_add_test_raise_signal (tc_core, test_list_remove_last_empty, SIGABRT);
