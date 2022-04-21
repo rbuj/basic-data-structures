@@ -202,7 +202,7 @@ list_bubble_sort (List *list)
   unsigned swapped;
   int      i;
   struct   Node *it;
-  struct   Node *left_ptr = NULL;
+  struct   Node *limit = NULL;
 
   if (list_is_empty (list))
     return;
@@ -210,14 +210,14 @@ list_bubble_sort (List *list)
   do {
     swapped = 0;
     it = list->head;
-    while (it->next != left_ptr) {
+    while (it->next != limit) {
       if (it->value > it->next->value) {
         node_swap (it, it->next);
         swapped = 1;
       }
       it = it->next;
     }
-    left_ptr = it;
+    limit = it;
   } while (swapped);
 }
 
