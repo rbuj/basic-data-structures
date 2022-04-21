@@ -415,7 +415,7 @@ list_print (List *list, char *buffer, int len)
   if (list == NULL)
     raise (SIGABRT);
 
-  aux = cx = snprintf (buffer, len, "[");
+  cx = snprintf (buffer, len, "[");
   if (cx < 0 || cx >= len)
     raise (SIGABRT);
 
