@@ -50,11 +50,35 @@ START_TEST (test_list)
   ck_assert (list_is_empty (list));
 }
 
+START_TEST (test_list_get_empty)
+{
+  ck_assert (list_is_empty (list));
+  (void) list_get (list, 0);
+}
+
 START_TEST (test_list_is_empty)
 {
   ck_assert (list_is_empty (list));
   list_add (list, 20);
   ck_assert (!list_is_empty (list));
+}
+
+START_TEST (test_list_remove_first_empty)
+{
+  ck_assert (list_is_empty (list));
+  (void) list_remove_first (list);
+}
+
+START_TEST (test_list_remove_last_empty)
+{
+  ck_assert (list_is_empty (list));
+  (void) list_remove_last (list);
+}
+
+START_TEST (test_list_set_empty)
+{
+  ck_assert (list_is_empty (list));
+  list_set (list, 0, 1);
 }
 
 /* tc_null_check */
@@ -119,6 +143,10 @@ check_list_suite (void)
   tc_core = tcase_create ("Core");
   tcase_add_checked_fixture   (tc_core, setup, teardown);
   tcase_add_test              (tc_core, test_list);
+  tcase_add_test_raise_signal (tc_core, test_list_get_empty, SIGABRT);
+  tcase_add_test_raise_signal (tc_core, test_list_remove_first_empty, SIGABRT);
+  tcase_add_test_raise_signal (tc_core, test_list_remove_last_empty, SIGABRT);
+  tcase_add_test_raise_signal (tc_core, test_list_set_empty, SIGABRT);
   suite_add_tcase (s, tc_core);
 
   tc_null_check = tcase_create ("Null");
