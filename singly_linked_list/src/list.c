@@ -89,7 +89,7 @@ list_destroy (List **list)
 {
   Node *ptr;
 
-  if (list == NULL)
+  if (*list == NULL)
     return;
 
   ptr = (*list)->head;
@@ -154,7 +154,7 @@ list_get (List  *list,
   int   value;
   Node *it;
 
-  if (list == NULL)
+  if (list_is_empty (list))
     raise (SIGABRT);
 
   if ((index >= list->size) || (index < 0))
@@ -167,15 +167,21 @@ list_get (List  *list,
 }
 
 int
+list_is_empty (List  *list)
+{
+  if (list == NULL)
+    raise (SIGABRT);
+
+  return list->head == NULL;
+}
+
+int
 list_remove_first (List *list)
 {
   int   ret;
   Node *ptr;
 
-  if (list == NULL)
-    raise (SIGABRT);
-
-  if (list->head == NULL)
+  if (list_is_empty (list))
     raise (SIGABRT);
 
   ptr = list->head->next;
@@ -192,10 +198,7 @@ list_remove_last (List *list)
 {
   int ret;
 
-  if (list == NULL)
-    raise (SIGABRT);
-
-  if (list->head == NULL)
+  if (list_is_empty (list))
     raise (SIGABRT);
 
   if (list->head->next == NULL) {
@@ -219,7 +222,7 @@ list_set (List  *list,
 {
   Node *it;
 
-  if (list == NULL)
+  if (list_is_empty (list))
     raise (SIGABRT);
 
   if ((index >= list->size) || (index < 0))
