@@ -406,20 +406,35 @@ list_size (List *list)
 }
 
 void
-list_print (List *list)
+list_print (List *list, char *buffer, int len)
 {
   Node *it;
+  int cx;
+  int aux;
 
   if (list == NULL)
     raise (SIGABRT);
 
-  printf (" nodes: [");
+  aux = cx = snprintf (buffer, len, "[");
+  if (cx < 0 || cx >= len)
+    raise (SIGABRT);
+
   it = list->head;
   while (it != NULL) {
-    printf (" %d", it->value);
-    if (it->next)
-      printf (",");
+    aux = snprintf (buffer + cx, len - cx, " %d", it->value);
+    if (aux < 0 || aux + cx >= len)
+      raise (SIGABRT);
+    cx += aux;
+
+    if (it->next) {
+      aux = snprintf (buffer + cx, len - cx, ",");
+      if (aux < 0 || aux + cx >= len)
+        raise (SIGABRT);
+      cx += aux;
+    }
     it = it->next;
   }
-  printf (" ]\n");
+  aux = snprintf (buffer + cx, len - cx, " ]");
+  if (aux < 0 || aux + cx >= len)
+    raise (SIGABRT);
 }

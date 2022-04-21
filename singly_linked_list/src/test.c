@@ -24,6 +24,7 @@ int
 main (void)
 {
   List *list;
+  char buffer [100];
 
   list = list_create ();
   list_insert_at_end (list, 2);
@@ -40,10 +41,12 @@ main (void)
   list_remove_last (list);
   printf ("Size : %d\n", list_size (list));
 
-  list_print (list);
+  list_print (list, buffer, 100);
+  printf ("%s\n", buffer);
 /*  list_bubble_sort (list); */
   list_quick_sort (list);
-  list_print (list);
+  list_print (list, buffer, 100);
+  printf ("%s\n", buffer);
   list_destroy (&list);
 
   return EXIT_SUCCESS;

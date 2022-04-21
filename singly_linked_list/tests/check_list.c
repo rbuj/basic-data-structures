@@ -51,6 +51,38 @@ START_TEST (test_list)
   ck_assert (list_is_empty (list));
 }
 
+START_TEST (test_list_bubble_sort)
+{
+  char buffer [100];
+  int i;
+
+  for (i = 1; i <= 10; i++)
+    list_insert_at_beginning (list, i);
+
+  list_print (list, buffer, 100);
+  ck_assert_str_eq (buffer, "[ 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 ]");
+
+  list_bubble_sort (list);
+  list_print (list, buffer, 100);
+  ck_assert_str_eq (buffer, "[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]");
+}
+
+START_TEST (test_list_quick_sort)
+{
+  char buffer [100];
+  int i;
+
+  for (i = 1; i <= 10; i++)
+    list_insert_at_beginning (list, i);
+
+  list_print (list, buffer, 100);
+  ck_assert_str_eq (buffer, "[ 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 ]");
+
+  list_quick_sort (list);
+  list_print (list, buffer, 100);
+  ck_assert_str_eq (buffer, "[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]");
+}
+
 START_TEST (test_list_find_empty)
 {
   ck_assert (list_is_empty (list));
@@ -279,6 +311,8 @@ check_list_suite (void)
   tcase_add_test              (tc_core, test_list_insert_at_zero_index);
   tcase_add_test              (tc_core, test_list_insert_at_zero_index_empty);
   tcase_add_test              (tc_core, test_list_set);
+  tcase_add_test              (tc_core, test_list_bubble_sort);
+  tcase_add_test              (tc_core, test_list_quick_sort);
   tcase_add_test_raise_signal (tc_core, test_list_get_empty, SIGABRT);
   tcase_add_test_raise_signal (tc_core, test_list_get_negative_index, SIGABRT);
   tcase_add_test_raise_signal (tc_core, test_list_get_out_of_bounds, SIGABRT);
