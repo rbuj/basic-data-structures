@@ -27,12 +27,14 @@ void   list_destroy          (List **list);
 
 void   list_add              (List  *list, int value);
 void   list_add_to_beginning (List  *list, int value);
+void   list_bubble_sort      (List  *list);
 int    list_find             (List  *list, int value);
 int    list_get              (List  *list, int index);
 int    list_is_empty         (List  *list);
 int    list_remove_first     (List  *list);
 int    list_remove_last      (List  *list);
 void   list_print            (List  *list);
+void   list_quick_sort       (List  *list);
 void   list_set              (List  *list, int index, int value);
 int    list_size             (List  *list);
 

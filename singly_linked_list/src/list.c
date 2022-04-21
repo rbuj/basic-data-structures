@@ -48,29 +48,98 @@ node_create (int   value,
 }
 
 static Node *
-node_last (List *list)
-{
-    Node *it;
-
-    it = list->head;
-    while (it->next != NULL)
-      it = it->next;
-    return it;
-}
-
-static Node *
-node_get (List *list,
+node_get (Node *it,
           int   index)
 {
-  Node *it;
-  int   count = 0;
+  int count = 0;
 
-  it = list->head;
   while ((index != count) && it) {
     count++;
     it = it->next;
   }
   return it;
+}
+
+static Node *
+node_get_tail (Node *it)
+{
+  while (it->next != NULL)
+    it = it->next;
+  return it;
+}
+
+static Node *
+node_partition (Node  *head,
+                Node  *end,
+                Node **new_head,
+                Node **new_end)
+{
+  Node *pivot = end;
+  Node *prev = NULL;
+  Node *cur = head;
+  Node *tail = pivot;
+
+  while (cur != pivot) {
+    if (cur->value < pivot->value) {
+      if ((*new_head) == NULL)
+        (*new_head) = cur;
+      prev = cur;
+      cur = cur->next;
+    } else {
+      Node *tmp;
+
+      if (prev)
+        prev->next = cur->next;
+      tmp = cur->next;
+      cur->next = NULL;
+      tail->next = cur;
+      tail = cur;
+      cur = tmp;
+    }
+  }
+  if ((*new_head) == NULL)
+    (*new_head) = pivot;
+  (*new_end) = tail;
+  return pivot;
+}
+
+static Node *
+node_quick_sort (Node *head,
+                 Node *end)
+{
+  Node *new_head = NULL;
+  Node *new_end = NULL;
+  Node *pivot;
+
+  if (!head || head == end)
+    return head;
+
+  pivot = node_partition (head, end, &new_head, &new_end);
+  if (new_head != pivot) {
+    Node *tmp;
+
+    tmp = new_head;
+    while (tmp->next != pivot)
+      tmp = tmp->next;
+    tmp->next = NULL;
+    new_head = node_quick_sort (new_head, tmp);
+    tmp = node_get_tail (new_head);
+    tmp->next = pivot;
+  }
+  pivot->next = node_quick_sort (pivot->next, new_end);
+
+  return new_head;
+}
+
+static void
+node_swap (Node *a,
+           Node *b)
+{
+  int temp;
+
+  temp = a->value;
+  a->value = b->value;
+  b->value = temp;
 }
 
 List *
@@ -122,14 +191,39 @@ list_add (List *list,
   if (list->head == NULL) {
     list_add_to_beginning (list, value);
   } else {
-    (node_last (list))->next = node_create (value, NULL);
+    node_get_tail (list->head)->next = node_create (value, NULL);
     list->size++;
   }
 }
 
+void
+list_bubble_sort (List *list)
+{
+  unsigned swapped;
+  int      i;
+  struct   Node *it;
+  struct   Node *left_ptr = NULL;
+
+  if (list_is_empty (list))
+    return;
+
+  do {
+    swapped = 0;
+    it = list->head;
+    while (it->next != left_ptr) {
+      if (it->value > it->next->value) {
+        node_swap (it, it->next);
+        swapped = 1;
+      }
+      it = it->next;
+    }
+    left_ptr = it;
+  } while (swapped);
+}
+
 int
-list_find (List  *list,
-           int    value)
+list_find (List *list,
+           int   value)
 {
   Node *it;
   int   count = 0;
@@ -148,8 +242,8 @@ list_find (List  *list,
 }
 
 int
-list_get (List  *list,
-          int    index)
+list_get (List *list,
+          int   index)
 {
   int   value;
   Node *it;
@@ -160,19 +254,29 @@ list_get (List  *list,
   if ((index >= list->size) || (index < 0))
     raise (SIGABRT);
 
-  if (it = node_get (list, index))
+  if (it = node_get (list->head, index))
     return it->value;
 
   return INT_MIN;
 }
 
 int
-list_is_empty (List  *list)
+list_is_empty (List *list)
 {
   if (list == NULL)
     raise (SIGABRT);
 
   return list->head == NULL;
+}
+
+void
+list_quick_sort (List *list)
+{
+  if (list_is_empty (list))
+    return;
+
+  list->head = node_quick_sort (list->head,
+                                node_get_tail (list->head));
 }
 
 int
@@ -228,12 +332,12 @@ list_set (List  *list,
   if ((index >= list->size) || (index < 0))
     raise (SIGABRT);
 
-  if (it = node_get (list, index))
+  if (it = node_get (list->head, index))
     it->value = value;
 }
 
 int
-list_size (List  *list)
+list_size (List *list)
 {
   if (list == NULL)
     raise (SIGABRT);

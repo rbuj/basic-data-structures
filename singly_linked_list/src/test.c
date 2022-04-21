@@ -28,10 +28,10 @@ main (void)
   list = list_create ();
   list_add (list, 2);
   printf ("Index (2) : %d\n", list_find (list, 2));
-  list_add (list, 3);
+  list_add (list, 6);
   list_add (list, 4);
   list_add (list, 5);
-  list_add (list, 6);
+  list_add (list, 3);
   list_add_to_beginning (list, 1);
   printf ("Index (6) : %d\n", list_find (list, 6));
   printf ("Index (2) : %d\n", list_find (list, 2));
@@ -41,7 +41,9 @@ main (void)
   printf ("Size : %d\n", list_size (list));
 
   list_print (list);
-
+/*  list_bubble_sort (list); */
+  list_quick_sort (list);
+  list_print (list);
   list_destroy (&list);
 
   return EXIT_SUCCESS;
