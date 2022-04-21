@@ -77,7 +77,7 @@ START_TEST (test_list_add_null)
   list_add (list, 1);
 }
 
-START_TEST (test_list_list_add_to_beginning_null)
+START_TEST (test_list_add_to_beginning_null)
 {
   ck_assert (list == NULL);
   list_add_to_beginning (list, 1);
@@ -124,7 +124,7 @@ check_list_suite (void)
   tc_null_check = tcase_create ("Null");
   tcase_add_test              (tc_null_check, test_list_destroy_null);
   tcase_add_test_raise_signal (tc_null_check, test_list_add_null, SIGABRT);
-  tcase_add_test_raise_signal (tc_null_check, test_list_list_add_to_beginning_null, SIGABRT);
+  tcase_add_test_raise_signal (tc_null_check, test_list_add_to_beginning_null, SIGABRT);
   tcase_add_test_raise_signal (tc_null_check, test_list_is_empty_null, SIGABRT);
   tcase_add_test_raise_signal (tc_null_check, test_list_remove_first_null, SIGABRT);
   tcase_add_test_raise_signal (tc_null_check, test_list_remove_last_null, SIGABRT);
