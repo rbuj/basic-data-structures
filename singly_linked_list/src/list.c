@@ -129,14 +129,14 @@ node_quick_sort (Node *head,
 }
 
 static void
-node_swap (Node *a,
-           Node *b)
+value_swap (int *a,
+            int *b)
 {
-  int temp;
+  int tmp;
 
-  temp = a->value;
-  a->value = b->value;
-  b->value = temp;
+  tmp = *a;
+  *a  = *b;
+  *b  = tmp;
 }
 
 List *
@@ -233,22 +233,21 @@ list_insert_at_end (List *list,
 void
 list_bubble_sort (List *list)
 {
-  unsigned swapped;
-  struct   Node *it;
-  struct   Node *limit = NULL;
+  Node     *limit = NULL;
+  unsigned  swapped;
 
   if (list_is_empty (list))
     return;
 
   do {
+    Node *it;
+
     swapped = 0;
-    it = list->head;
-    while (it->next != limit) {
+    for (it = list->head; it->next != limit; it = it->next) {
       if (it->value > it->next->value) {
-        node_swap (it, it->next);
+        value_swap (&(it->value), &(it->next->value));
         swapped = 1;
       }
-      it = it->next;
     }
     limit = it;
   } while (swapped);
