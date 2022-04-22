@@ -67,6 +67,15 @@ START_TEST (test_list_bubble_sort)
   ck_assert_str_eq (buffer, "[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]");
 }
 
+START_TEST (test_list_bubble_sort_empty)
+{
+  char buffer [100];
+
+  list_bubble_sort (list);
+  list_print (list, buffer, 100);
+  ck_assert_str_eq (buffer, "[ ]");
+}
+
 START_TEST (test_list_quick_sort)
 {
   char buffer [100];
@@ -83,10 +92,41 @@ START_TEST (test_list_quick_sort)
   ck_assert_str_eq (buffer, "[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]");
 }
 
+START_TEST (test_list_quick_sort_empty)
+{
+  char buffer [100];
+
+  list_quick_sort (list);
+  list_print (list, buffer, 100);
+  ck_assert_str_eq (buffer, "[ ]");
+}
+
+START_TEST (test_list_find)
+{
+  int i;
+
+  for (i = 10; i > 0; i--)
+    list_insert_at_beginning (list, i);
+
+  for (i = 1; i <= 10; i++)
+    ck_assert_int_eq (list_find (list, i), i - 1);
+}
+
 START_TEST (test_list_find_empty)
 {
   ck_assert (list_is_empty (list));
   ck_assert_int_eq (list_find (list, 0), INT_MIN);
+}
+
+START_TEST (test_list_get)
+{
+  int i;
+
+  for (i = 10; i > 0; i--)
+    list_insert_at_beginning (list, i);
+
+  for (i = 1; i <= 10; i++)
+    ck_assert_int_eq (list_get (list, i - 1),  i);
 }
 
 START_TEST (test_list_get_empty)
@@ -115,12 +155,36 @@ START_TEST (test_list_get_out_of_bounds)
   (void) list_get (list, 3);
 }
 
+START_TEST (test_list_insert_at_beginning)
+{
+  char buffer [100];
+  int i;
+
+  for (i = 10; i > 0; i--)
+    list_insert_at_beginning (list, i);
+
+  list_print (list, buffer, 100);
+  ck_assert_str_eq (buffer, "[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]");
+}
+
 START_TEST (test_list_insert_at_beginning_empty)
 {
   ck_assert (list_is_empty (list));
   list_insert_at_beginning (list, 10);
   ck_assert_int_eq (list_get (list, 0), 10);
   ck_assert_int_eq (list_size (list), 1);
+}
+
+START_TEST (test_list_insert_at_end)
+{
+  char buffer [100];
+  int i;
+
+  for (i = 1; i <= 10; i++)
+    list_insert_at_end (list, i);
+
+  list_print (list, buffer, 100);
+  ck_assert_str_eq (buffer, "[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]");
 }
 
 START_TEST (test_list_insert_at_end_empty)
@@ -411,14 +475,18 @@ check_list_suite (void)
   tcase_add_checked_fixture   (tc_core, setup, teardown);
   tcase_add_test              (tc_core, test_list);
   /* test_list_find */
+  tcase_add_test              (tc_core, test_list_find);
   tcase_add_test              (tc_core, test_list_find_empty);
   /* list_get */
+  tcase_add_test              (tc_core, test_list_get);
   tcase_add_test_raise_signal (tc_core, test_list_get_empty, SIGABRT);
   tcase_add_test_raise_signal (tc_core, test_list_get_negative_index, SIGABRT);
   tcase_add_test_raise_signal (tc_core, test_list_get_out_of_bounds, SIGABRT);
   /* list_insert_at_beginning */
+  tcase_add_test              (tc_core, test_list_insert_at_beginning);
   tcase_add_test              (tc_core, test_list_insert_at_beginning_empty);
   /* list_insert_at_end */
+  tcase_add_test              (tc_core, test_list_insert_at_end);
   tcase_add_test              (tc_core, test_list_insert_at_end_empty);
   /* list_insert_at */
   tcase_add_test              (tc_core, test_list_insert_at);
@@ -437,6 +505,7 @@ check_list_suite (void)
   tcase_add_test_raise_signal (tc_core, test_list_remove_first_empty, SIGABRT);
   /* list_remove_last */
   tcase_add_test              (tc_core, test_list_remove_last);
+  tcase_add_test_raise_signal (tc_core, test_list_remove_last_empty, SIGABRT);
   /* test_list_set */
   tcase_add_test              (tc_core, test_list_set);
   tcase_add_test_raise_signal (tc_core, test_list_set_empty, SIGABRT);
@@ -444,7 +513,9 @@ check_list_suite (void)
   tcase_add_test_raise_signal (tc_core, test_list_set_out_of_bounds, SIGABRT);
   /* sort */
   tcase_add_test              (tc_core, test_list_bubble_sort);
+  tcase_add_test              (tc_core, test_list_bubble_sort_empty);
   tcase_add_test              (tc_core, test_list_quick_sort);
+  tcase_add_test              (tc_core, test_list_quick_sort_empty);
   /* add tc_core */
   suite_add_tcase (s, tc_core);
 
