@@ -474,7 +474,7 @@ check_list_suite (void)
   tc_core = tcase_create ("Core");
   tcase_add_checked_fixture   (tc_core, setup, teardown);
   tcase_add_test              (tc_core, test_list);
-  /* test_list_find */
+  /* list_find */
   tcase_add_test              (tc_core, test_list_find);
   tcase_add_test              (tc_core, test_list_find_empty);
   /* list_get */
@@ -500,18 +500,18 @@ check_list_suite (void)
   tcase_add_test_raise_signal (tc_core, test_list_remove_at_empty, SIGABRT);
   tcase_add_test_raise_signal (tc_core, test_list_remove_at_negative_index, SIGABRT);
   tcase_add_test_raise_signal (tc_core, test_list_remove_at_out_of_bounds, SIGABRT);
-  /* remove_first */
+  /* list_remove_first */
   tcase_add_test              (tc_core, test_list_remove_first);
   tcase_add_test_raise_signal (tc_core, test_list_remove_first_empty, SIGABRT);
   /* list_remove_last */
   tcase_add_test              (tc_core, test_list_remove_last);
   tcase_add_test_raise_signal (tc_core, test_list_remove_last_empty, SIGABRT);
-  /* test_list_set */
+  /* list_set */
   tcase_add_test              (tc_core, test_list_set);
   tcase_add_test_raise_signal (tc_core, test_list_set_empty, SIGABRT);
   tcase_add_test_raise_signal (tc_core, test_list_set_negative_index, SIGABRT);
   tcase_add_test_raise_signal (tc_core, test_list_set_out_of_bounds, SIGABRT);
-  /* sort */
+  /* list_sort */
   tcase_add_test              (tc_core, test_list_bubble_sort);
   tcase_add_test              (tc_core, test_list_bubble_sort_empty);
   tcase_add_test              (tc_core, test_list_quick_sort);
