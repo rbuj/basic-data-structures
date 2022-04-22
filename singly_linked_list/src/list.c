@@ -277,18 +277,13 @@ int
 list_get (List *list,
           int   index)
 {
-  Node *it;
-
   if (list_is_empty (list))
     raise (SIGABRT);
 
   if ((index >= list->size) || (index < 0))
     raise (SIGABRT);
 
-  if (it = node_get (list->head, index))
-    return it->value;
-
-  return INT_MIN;
+  return node_get (list->head, index)->value;
 }
 
 int
