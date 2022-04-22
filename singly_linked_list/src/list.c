@@ -263,11 +263,8 @@ list_find (List *list,
   if (list == NULL)
     raise (SIGABRT);
 
-  it = list->head;
-  while (it && (it->value != value)) {
+  for (it = list->head; it && (it->value != value); it = it->next)
     count++;
-    it = it->next;
-  }
   if (it)
     return count;
   return INT_MIN;
