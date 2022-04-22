@@ -193,6 +193,7 @@ list_insert_at (List *list,
       int   i;
       Node *ptr;
 
+      ptr = list->head;
       for (i = 0; i < index - 1; i++)
         ptr = ptr->next;
       ptr->next = node_create (value, ptr->next);
@@ -231,7 +232,6 @@ void
 list_bubble_sort (List *list)
 {
   unsigned swapped;
-  int      i;
   struct   Node *it;
   struct   Node *limit = NULL;
 
@@ -276,7 +276,6 @@ int
 list_get (List *list,
           int   index)
 {
-  int   value;
   Node *it;
 
   if (list_is_empty (list))
