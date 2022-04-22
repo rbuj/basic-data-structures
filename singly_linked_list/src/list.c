@@ -144,7 +144,7 @@ list_create (void)
 {
   List *list;
 
-  list = (List *) malloc( sizeof (List));
+  list = (List *) malloc (sizeof (List));
   list->head = NULL;
   list->tail = NULL;
   list->size = 0;
@@ -154,15 +154,16 @@ list_create (void)
 void
 list_destroy (List **list)
 {
-  Node *ptr;
+  Node *it;
 
   if (*list == NULL)
     return;
 
-  ptr = (*list)->head;
-  while (ptr != NULL) {
-    (void) list_remove_first (*list);
-    ptr = (*list)->head;
+  it = (*list)->head;
+  while (it != NULL) {
+    Node *node = it;
+    it = it->next;
+    free (node);
   }
   free (*list);
   *list = NULL;
