@@ -393,16 +393,13 @@ list_set (List  *list,
           int    index,
           int    value)
 {
-  Node *it;
-
   if (list_is_empty (list))
     raise (SIGABRT);
 
   if ((index >= list->size) || (index < 0))
     raise (SIGABRT);
 
-  if (it = node_get (list->head, index))
-    it->value = value;
+  node_get (list->head, index)->value = value;
 }
 
 int
