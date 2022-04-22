@@ -423,20 +423,18 @@ list_print (List *list, char *buffer, int len)
   if (cx < 0 || cx >= len)
     raise (SIGABRT);
 
-  it = list->head;
-  while (it != NULL) {
+  for (it = list->head; it != NULL; it = it->next) {
     aux = snprintf (buffer + cx, len - cx, " %d", it->value);
     if (aux < 0 || aux + cx >= len)
       raise (SIGABRT);
     cx += aux;
 
-    if (it->next) {
+    if (it->next != NULL) {
       aux = snprintf (buffer + cx, len - cx, ",");
       if (aux < 0 || aux + cx >= len)
         raise (SIGABRT);
       cx += aux;
     }
-    it = it->next;
   }
   aux = snprintf (buffer + cx, len - cx, " ]");
   if (aux < 0 || aux + cx >= len)
