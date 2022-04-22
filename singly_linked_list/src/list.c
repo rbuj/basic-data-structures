@@ -219,12 +219,17 @@ void
 list_insert_at_end (List *list,
                     int   value)
 {
-  if (list_is_empty (list)) {
-    list->head = list->tail = node_create (value, list->tail);
-  } else {
-    list->tail->next = node_create (value, NULL);
-    list->tail = list->tail->next;
-  }
+  Node *tail;
+
+  if (list == NULL)
+    raise (SIGABRT);
+
+  tail = node_create (value, NULL);
+  if (list->tail == NULL)
+    list->head = tail;
+  else
+    list->tail->next = tail;
+  list->tail = tail;
   list->size++;
 }
 
