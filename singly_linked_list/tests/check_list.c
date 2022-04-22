@@ -115,6 +115,30 @@ START_TEST (test_list_get_out_of_bounds)
   (void) list_get (list, 3);
 }
 
+START_TEST (test_list_insert_at_beginning_empty)
+{
+  ck_assert (list_is_empty (list));
+  list_insert_at_beginning (list, 10);
+  ck_assert_int_eq (list_get (list, 0), 10);
+  ck_assert_int_eq (list_size (list), 1);
+}
+
+START_TEST (test_list_insert_at_end_empty)
+{
+  ck_assert (list_is_empty (list));
+  list_insert_at_end (list, 10);
+  ck_assert_int_eq (list_get (list, 0), 10);
+  ck_assert_int_eq (list_size (list), 1);
+}
+
+START_TEST (test_list_insert_at_empty)
+{
+  ck_assert (list_is_empty (list));
+  list_insert_at (list, 0, 10);
+  ck_assert_int_eq (list_get (list, 0), 10);
+  ck_assert_int_eq (list_size (list), 1);
+}
+
 START_TEST (test_list_insert_at_negative_index)
 {
   ck_assert (list_is_empty (list));
@@ -159,6 +183,25 @@ START_TEST (test_list_is_empty)
   ck_assert (!list_is_empty (list));
 }
 
+START_TEST (test_list_remove_at)
+{
+  char buffer [100];
+  int i;
+
+  for (i = 10; i > 0; i--)
+    list_insert_at_beginning (list, i);
+
+  list_print (list, buffer, 100);
+  ck_assert_str_eq (buffer, "[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]");
+
+  ck_assert_int_eq (list_remove_at (list, 9), 10);
+  ck_assert_int_eq (list_remove_at (list, 0), 1);
+  ck_assert_int_eq (list_remove_at (list, 3), 5);
+
+  list_print (list, buffer, 100);
+  ck_assert_str_eq (buffer, "[ 2, 3, 4, 6, 7, 8, 9 ]");
+}
+
 START_TEST (test_list_remove_at_empty)
 {
   ck_assert (list_is_empty (list));
@@ -183,10 +226,44 @@ START_TEST (test_list_remove_at_out_of_bounds)
   (void) list_remove_at (list, 3);
 }
 
+START_TEST (test_list_remove_first)
+{
+  char buffer [100];
+  int i;
+
+  for (i = 10; i > 0; i--)
+    list_insert_at_beginning (list, i);
+
+  list_print (list, buffer, 100);
+  ck_assert_str_eq (buffer, "[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]");
+
+  ck_assert_int_eq (list_remove_first (list), 1);
+
+  list_print (list, buffer, 100);
+  ck_assert_str_eq (buffer, "[ 2, 3, 4, 5, 6, 7, 8, 9, 10 ]");
+}
+
 START_TEST (test_list_remove_first_empty)
 {
   ck_assert (list_is_empty (list));
   (void) list_remove_first (list);
+}
+
+START_TEST (test_list_remove_last)
+{
+  char buffer [100];
+  int i;
+
+  for (i = 1; i <= 10; i++)
+    list_insert_at_end (list, i);
+
+  list_print (list, buffer, 100);
+  ck_assert_str_eq (buffer, "[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]");
+
+  ck_assert_int_eq (list_remove_last (list), 10);
+
+  list_print (list, buffer, 100);
+  ck_assert_str_eq (buffer, "[ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]");
 }
 
 START_TEST (test_list_remove_last_empty)
@@ -308,8 +385,14 @@ check_list_suite (void)
   tcase_add_checked_fixture   (tc_core, setup, teardown);
   tcase_add_test              (tc_core, test_list);
   tcase_add_test              (tc_core, test_list_find_empty);
+  tcase_add_test              (tc_core, test_list_insert_at_beginning_empty);
+  tcase_add_test              (tc_core, test_list_insert_at_end_empty);
+  tcase_add_test              (tc_core, test_list_insert_at_empty);
   tcase_add_test              (tc_core, test_list_insert_at_zero_index);
   tcase_add_test              (tc_core, test_list_insert_at_zero_index_empty);
+  tcase_add_test              (tc_core, test_list_remove_at);
+  tcase_add_test              (tc_core, test_list_remove_first);
+  tcase_add_test              (tc_core, test_list_remove_last);
   tcase_add_test              (tc_core, test_list_set);
   tcase_add_test              (tc_core, test_list_bubble_sort);
   tcase_add_test              (tc_core, test_list_quick_sort);

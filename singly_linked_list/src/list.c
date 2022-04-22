@@ -32,6 +32,7 @@ struct Node
 struct List
 {
   Node *head;
+  Node *tail;
   int   size;
 };
 
@@ -149,6 +150,7 @@ list_create (void)
 
   list = (List *) malloc( sizeof (List));
   list->head = NULL;
+  list->tail = NULL;
   list->size = 0;
   return list;
 }
@@ -181,11 +183,12 @@ list_insert_at (List *list,
   if ((index > list->size) || (index < 0))
     raise (SIGABRT);
 
-  if ((list->head == NULL) || (index == 0)) {
-    list->head = node_create (value, list->head);
+  if ((list->head == NULL) || (list->tail == NULL) || (index == 0)) {
+    list->head = list->tail = node_create (value, list->head);
   } else {
     if (index == list->size) {
-      node_get_tail (list->head)->next = node_create (value, NULL);
+      list->tail->next = node_create (value, NULL);
+      list->tail = list->tail->next;
     } else {
       int   i;
       Node *ptr;
@@ -206,6 +209,8 @@ list_insert_at_beginning (List *list,
     raise (SIGABRT);
 
   list->head = node_create (value, list->head);
+  if ((list->size == 0) || (list->tail == NULL))
+    list->tail = list->head;
   list->size++;
 }
 
@@ -214,9 +219,10 @@ list_insert_at_end (List *list,
                     int   value)
 {
   if (list_is_empty (list)) {
-    list->head = node_create (value, list->head);
+    list->head = list->tail = node_create (value, list->tail);
   } else {
-    node_get_tail (list->head)->next = node_create (value, NULL);
+    list->tail->next = node_create (value, NULL);
+    list->tail = list->tail->next;
   }
   list->size++;
 }
@@ -291,7 +297,9 @@ list_is_empty (List *list)
   if (list == NULL)
     raise (SIGABRT);
 
-  return list->head == NULL;
+  return ((list->head == NULL) &&
+          (list->tail == NULL) &&
+          (list->size == 0));
 }
 
 void
@@ -300,8 +308,7 @@ list_quick_sort (List *list)
   if (list_is_empty (list))
     return;
 
-  list->head = node_quick_sort (list->head,
-                                node_get_tail (list->head));
+  list->head = node_quick_sort (list->head, list->tail);
 }
 
 int
@@ -319,6 +326,8 @@ list_remove_at (List *list,
 
   ptr = list->head;
   if (index == 0) {
+    if (list->size == 1)
+      list->tail = NULL;
     ret = list->head->value;
     list->head = list->head->next;
     free (ptr);
@@ -331,6 +340,8 @@ list_remove_at (List *list,
     del = ptr->next;
     ret = del->value;
     ptr->next = ptr->next->next;
+    if (del->next == NULL)
+      list->tail = ptr;
     free (del);
   }
   list->size--;
@@ -349,6 +360,8 @@ list_remove_first (List *list)
   ptr = list->head;
   ret = list->head->value;
   list->head = list->head->next;
+  if (list->head == NULL)
+    list->tail = NULL;
   free (ptr);
   list->size--;
   return ret;
@@ -365,15 +378,15 @@ list_remove_last (List *list)
   if (list->head->next == NULL) {
     ret = list->head->value;
     free (list->head);
-    list->head = NULL;
+    list->head = list->tail = NULL;
     list->size = 0;
   } else {
-    Node *ptr = list->head;
-    while (ptr->next->next != NULL)
-      ptr = ptr->next;
-    ret = ptr->next->value;
-    free (ptr->next);
-    ptr->next = NULL;
+    list->tail = list->head;
+    while (list->tail->next->next != NULL)
+      list->tail = list->tail->next;
+    ret = list->tail->next->value;
+    free (list->tail->next);
+    list->tail->next = NULL;
     list->size--;
   }
   return ret;
