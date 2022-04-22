@@ -50,14 +50,10 @@ node_create (int   value,
 
 static Node *
 node_get (Node *it,
-          int   index)
+          int   i)
 {
-  int count = 0;
-
-  while ((index != count) && it) {
-    count++;
+  for (; i > 0; i--)
     it = it->next;
-  }
   return it;
 }
 
