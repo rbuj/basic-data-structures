@@ -309,6 +309,7 @@ list_quick_sort (List *list)
     return;
 
   list->head = node_quick_sort (list->head, list->tail);
+  list->tail = node_get_tail (list->head);
 }
 
 int
