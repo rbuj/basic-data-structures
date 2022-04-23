@@ -141,6 +141,41 @@ list_get (List *list,
 }
 
 void
+list_insert_at (List *list,
+                int   index,
+                int   value)
+{
+  if (list == NULL)
+    raise (SIGABRT);
+
+  if ((index > list->size) || (index < 0))
+    raise (SIGABRT);
+
+  if ((list->head == NULL) && (list->tail == NULL)) {
+    list->head = list->tail = node_create (value, NULL, NULL);
+  } else {
+    Node *ptr;
+
+    if (index == list->size) {
+      ptr = list->tail;
+      ptr->next = list->tail = node_create (value, ptr, NULL);
+    } else {
+      Node *new_node;
+
+      ptr = node_get (list->head, index);
+      new_node = node_create (value, ptr->prev, ptr);
+      if (ptr->prev == NULL) {
+        list->head = ptr->prev = new_node;
+      } else {
+        ptr->prev->next = new_node;
+        ptr->prev = new_node;
+      }
+    }
+  }
+  list->size++;
+}
+
+void
 list_insert_at_beginning (List *list,
                           int   value)
 {

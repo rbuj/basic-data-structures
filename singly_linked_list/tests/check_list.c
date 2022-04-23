@@ -199,11 +199,10 @@ START_TEST (test_list_insert_at)
 {
   char buffer [100];
 
-  list_insert_at_beginning (list, 4);
-  list_insert_at_beginning (list, 2);
-
-  list_insert_at (list, 2, 5);
+  list_insert_at (list, 0, 2);
   list_insert_at (list, 0, 1);
+  list_insert_at (list, 2, 5);
+  list_insert_at (list, 2, 4);
   list_insert_at (list, 2, 3);
 
   list_print (list, buffer, 100);

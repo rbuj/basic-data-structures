@@ -180,20 +180,22 @@ list_insert_at (List *list,
   if ((index > list->size) || (index < 0))
     raise (SIGABRT);
 
-  if ((list->head == NULL) || (list->tail == NULL) || (index == 0)) {
-    list->head = list->tail = node_create (value, list->head);
+  if ((list->head == NULL) && (list->tail == NULL)) {
+    list->head = list->tail = node_create (value, NULL);
   } else {
-    if (index == list->size) {
-      list->tail->next = node_create (value, NULL);
-      list->tail = list->tail->next;
-    } else {
-      int   i;
-      Node *ptr;
+    Node *ptr;
 
+    if (index == 0) {
       ptr = list->head;
-      for (i = 0; i < index - 1; i++)
-        ptr = ptr->next;
-      ptr->next = node_create (value, ptr->next);
+      list->head = ptr->next = node_create (value, list->head);
+    } else {
+      if (index == list->size) {
+        ptr = list->tail;
+        list->tail = ptr->next = node_create (value, NULL);
+      } else {
+        ptr = node_get (list->head, index - 1);
+        ptr->next = node_create (value, ptr->next);
+      }
     }
   }
   list->size++;

@@ -105,6 +105,65 @@ START_TEST (test_list_get_out_of_bounds)
   (void) list_get (list, 3);
 }
 
+START_TEST (test_list_insert_at)
+{
+  char buffer [100];
+
+  list_insert_at (list, 0, 2);
+  list_insert_at (list, 0, 1);
+  list_insert_at (list, 2, 5);
+  list_insert_at (list, 2, 4);
+  list_insert_at (list, 2, 3);
+
+  list_print (list, buffer, 100);
+  ck_assert_str_eq (buffer, "[ 1, 2, 3, 4, 5 ]");
+}
+
+START_TEST (test_list_insert_at_empty)
+{
+  ck_assert (list_is_empty (list));
+  list_insert_at (list, 0, 10);
+  ck_assert_int_eq (list_get (list, 0), 10);
+  ck_assert_int_eq (list_size (list), 1);
+}
+
+START_TEST (test_list_insert_at_negative_index)
+{
+  ck_assert (list_is_empty (list));
+  list_insert_at_beginning (list, 3);
+  list_insert_at_beginning (list, 2);
+  list_insert_at_beginning (list, 1);
+  ck_assert (!list_is_empty (list));
+  list_insert_at (list, -1, 1);
+}
+
+START_TEST (test_list_insert_at_out_of_bounds)
+{
+  ck_assert (list_is_empty (list));
+  list_insert_at_beginning (list, 3);
+  list_insert_at_beginning (list, 2);
+  list_insert_at_beginning (list, 1);
+  ck_assert_int_eq (list_size (list), 3);
+  list_insert_at (list, 3, 4);
+  ck_assert_int_eq (list_get (list, 3), 4);
+  ck_assert_int_eq (list_size (list), 4);
+  list_insert_at (list, 5, 6);
+}
+
+START_TEST (test_list_insert_at_zero_index)
+{
+  ck_assert (list_is_empty (list));
+  list_insert_at (list, 0, 1);
+  ck_assert_int_eq (list_get (list, 0), 1);
+}
+
+START_TEST (test_list_insert_at_zero_index_empty)
+{
+  ck_assert (list_is_empty (list));
+  list_insert_at (list, 0, 1);
+  ck_assert_int_eq (list_get (list, 0), 1);
+}
+
 START_TEST (test_list_insert_at_beginning)
 {
   char buffer [100];
@@ -307,6 +366,13 @@ check_list_suite (void)
   tcase_add_test_raise_signal (tc_core, test_list_get_empty, SIGABRT);
   tcase_add_test_raise_signal (tc_core, test_list_get_negative_index, SIGABRT);
   tcase_add_test_raise_signal (tc_core, test_list_get_out_of_bounds, SIGABRT);
+  /* list_insert_at */
+  tcase_add_test              (tc_core, test_list_insert_at);
+  tcase_add_test              (tc_core, test_list_insert_at_empty);
+  tcase_add_test_raise_signal (tc_core, test_list_insert_at_negative_index, SIGABRT);
+  tcase_add_test_raise_signal (tc_core, test_list_insert_at_out_of_bounds, SIGABRT);
+  tcase_add_test              (tc_core, test_list_insert_at_zero_index);
+  tcase_add_test              (tc_core, test_list_insert_at_zero_index_empty);
   /* list_insert_at_beginning */
   tcase_add_test              (tc_core, test_list_insert_at_beginning);
   tcase_add_test              (tc_core, test_list_insert_at_beginning_empty);

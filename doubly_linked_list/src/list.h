@@ -27,6 +27,7 @@ void   list_destroy             (List **list);
 
 int    list_find                (List  *list, int value);
 int    list_get                 (List  *list, int index);
+void   list_insert_at           (List  *list, int index, int value);
 void   list_insert_at_beginning (List  *list, int value);
 void   list_insert_at_end	(List  *list, int value);
 int    list_is_empty            (List  *list);
