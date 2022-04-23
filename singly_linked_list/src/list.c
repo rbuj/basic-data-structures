@@ -320,19 +320,17 @@ list_remove_at (List *list,
   if ((index >= list->size) || (index < 0))
     raise (SIGABRT);
 
-  ptr = list->head;
   if (index == 0) {
-    if (list->size == 1)
+    ptr = list->head;
+    if (ptr->next == NULL)
       list->tail = NULL;
-    ret = list->head->value;
-    list->head = list->head->next;
+    ret = ptr->value;
+    list->head = ptr->next;
     free (ptr);
   } else {
-    int   i;
     Node *del;
 
-    for (i = 0; i < index - 1; i++)
-      ptr = ptr->next;
+    ptr = node_get (list->head, index - 1);
     del = ptr->next;
     ret = del->value;
     ptr->next = ptr->next->next;
