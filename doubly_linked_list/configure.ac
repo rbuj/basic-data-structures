@@ -21,7 +21,8 @@ AC_ARG_ENABLE(profile,
               enable_profile=no)
 if test x"$enable_profile" = xyes
 then
-    CFLAGS="$CFLAGS -pg -g"
+  CFLAGS="$CFLAGS -pg -g"
+  LDFLAGS="$LDFLAGS -pg"
 fi
 
 AC_ARG_ENABLE(sanitize,
@@ -29,8 +30,8 @@ AC_ARG_ENABLE(sanitize,
               enable_sanitize=no)
 if test x"$enable_sanitize" = xyes
 then
-  CFLAGS="$CFLAGS -O0 -fsanitize=address"
-  LDFLAGS="$LDFLAGS -O0 -fsanitize=address"
+  CFLAGS="$CFLAGS -fsanitize=address"
+  LDFLAGS="$LDFLAGS -fsanitize=address"
 fi
 
 AC_PROG_LIBTOOL
