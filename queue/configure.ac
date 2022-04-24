@@ -1,6 +1,9 @@
 AC_INIT([Queue], [0.1], [https://github.com/rbuj/basic-data-structures/issues])
 AM_INIT_AUTOMAKE([foreign])
 AC_CONFIG_MACRO_DIR([m4])
+
+m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
+
 AM_PROG_AR
 
 AC_PROG_CC
