@@ -16,11 +16,11 @@ make check
 ```
 ./src/test
 ```
-# Clean previos build
+# Clean previous build
 ```
 make clean
 ```
-# Address Sanitizer build
+# Address sanitizer build
 ```
 ./autogen.sh
 CC=clang CFLAGS=-O0 ./configure --enable-sanitize
