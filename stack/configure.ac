@@ -42,3 +42,17 @@ AC_OUTPUT([
   src/Makefile
   tests/Makefile
 ])
+
+echo "
+configure summary:
+
+  $PACKAGE_STRING
+  `echo $PACKAGE_STRING | sed "s/./=/g"`
+
+  compuler ............ $CC
+  cflags .............. $CFLAGS
+  link flags .......... $LDFLAGS
+
+  profile support ..... $enable_profile
+  sanitize support .... $enable_profile
+"
