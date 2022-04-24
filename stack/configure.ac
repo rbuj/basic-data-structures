@@ -49,7 +49,7 @@ configure summary:
   $PACKAGE_STRING
   `echo $PACKAGE_STRING | sed "s/./=/g"`
 
-  compuler ............ $CC
+  compiler ............ $CC
   cflags .............. $CFLAGS
   link flags .......... $LDFLAGS
 
