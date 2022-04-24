@@ -60,25 +60,6 @@ node_get (Node *it,
   return it;
 }
 
-static Node *
-node_get_tail (Node *it)
-{
-  while (it->next != NULL)
-    it = it->next;
-  return it;
-}
-
-static void
-value_swap (int *a,
-            int *b)
-{
-  int tmp;
-
-  tmp = *a;
-  *a  = *b;
-  *b  = tmp;
-}
-
 List *
 list_create (void)
 {
@@ -288,33 +269,34 @@ list_size (List *list)
 }
 
 void
-list_print (List *list, char *buffer, int len)
+list_print (List *list, char *buffer, size_t len)
 {
   Node *it;
-  int cx;
+  size_t cx;
   int aux;
 
   if (list == NULL)
     raise (SIGABRT);
 
-  cx = snprintf (buffer, len, "[");
-  if (cx < 0 || cx >= len)
+  aux = snprintf (buffer, len, "[");
+  if (aux < 0 || (size_t)aux >= len)
     raise (SIGABRT);
+  cx = (size_t) aux;
 
   for (it = list->head; it != NULL; it = it->next) {
     aux = snprintf (buffer + cx, len - cx, " %d", it->value);
-    if (aux < 0 || aux + cx >= len)
+    if (aux < 0 || ((size_t) aux) + cx >= len)
       raise (SIGABRT);
-    cx += aux;
+    cx += (size_t) aux;
 
     if (it->next != NULL) {
       aux = snprintf (buffer + cx, len - cx, ",");
-      if (aux < 0 || aux + cx >= len)
+      if (aux < 0 || ((size_t) aux) + cx >= len)
         raise (SIGABRT);
-      cx += aux;
+      cx += (size_t) aux;
     }
   }
   aux = snprintf (buffer + cx, len - cx, " ]");
-  if (aux < 0 || aux + cx >= len)
+  if (aux < 0 || ((size_t) aux) + cx >= len)
     raise (SIGABRT);
 }

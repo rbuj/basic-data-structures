@@ -1,6 +1,3 @@
-AM_CFLAGS = -ggdb3 -O0 -fsanitize=address
-AM_LDFLAGS = -O0 -fsanitize=address
-
 TESTS = check_queue
 check_PROGRAMS = check_queue
 check_queue_SOURCES = check_queue.c $(top_builddir)/src/queue.h

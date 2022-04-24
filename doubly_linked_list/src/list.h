@@ -33,7 +33,7 @@ void   list_insert_at_end	(List  *list, int value);
 int    list_is_empty            (List  *list);
 int    list_remove_first        (List  *list);
 int    list_remove_last         (List  *list);
-void   list_print               (List  *list, char *buffer, int len);
+void   list_print               (List  *list, char *buffer, size_t len);
 void   list_set                 (List  *list, int index, int value);
 int    list_size                (List  *list);
 

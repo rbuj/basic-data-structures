@@ -72,7 +72,7 @@ stack_is_full (Stack *stack)
     raise (SIGABRT);
   }
 
-  return stack->top == stack->capacity - 1;
+  return stack->top == (int) stack->capacity - 1;
 }
 
 int

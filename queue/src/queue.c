@@ -39,7 +39,7 @@ queue_create (unsigned capacity)
 
   queue = (Queue*) malloc (sizeof (Queue));
   queue->capacity = capacity;
-  queue->rear = capacity - 1;
+  queue->rear = (int) capacity - 1;
   queue->size = 0;
   queue->front = 0;
   queue->array = (int*) malloc (capacity * sizeof (int));
@@ -65,7 +65,7 @@ queue_clean (Queue *queue)
   if (queue_is_empty (queue))
     return;
 
-  queue->rear = queue->capacity - 1;
+  queue->rear = (int) queue->capacity - 1;
   queue->size = 0;
   queue->front = 0;
 }
@@ -78,7 +78,7 @@ queue_is_full (Queue *queue)
     raise (SIGABRT);
   }
 
-  return queue->size == queue->capacity;
+  return queue->size == (int) queue->capacity;
 }
 
 int
@@ -101,7 +101,7 @@ queue_enqueue (Queue *queue,
     raise (SIGABRT);
   }
 
-  queue->rear = (queue->rear + 1) % queue->capacity;
+  queue->rear = (queue->rear + 1) % (int) queue->capacity;
   queue->array [queue->rear] = value;
   queue->size += 1;
 }
@@ -115,7 +115,7 @@ queue_dequeue (Queue *queue)
     int value;
 
     value = queue->array [queue->front];
-    queue->front = (queue->front + 1) % queue->capacity;
+    queue->front = (queue->front + 1) % (int) queue->capacity;
     queue->size -= 1;
     return value;
   }
