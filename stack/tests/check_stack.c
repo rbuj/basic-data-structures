@@ -26,6 +26,10 @@
 
 Stack *stack = NULL;
 
+Suite * check_stack_suite (void);
+void setup (void);
+void teardown (void);
+
 void
 setup (void)
 {

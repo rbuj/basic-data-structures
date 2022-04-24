@@ -25,6 +25,10 @@
 
 List *list = NULL;
 
+Suite * check_list_suite (void);
+void setup (void);
+void teardown (void);
+
 void
 setup (void)
 {
@@ -379,6 +383,8 @@ check_list_suite (void)
   /* list_insert_at_end */
   tcase_add_test              (tc_core, test_list_insert_at_end);
   tcase_add_test              (tc_core, test_list_insert_at_end_empty);
+  /* list_is_empty */
+  tcase_add_test              (tc_core, test_list_is_empty);
   /* list_remove_first */
   tcase_add_test              (tc_core, test_list_remove_first);
   tcase_add_test_raise_signal (tc_core, test_list_remove_first_empty, SIGABRT);

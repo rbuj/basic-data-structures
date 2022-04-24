@@ -26,6 +26,10 @@
 
 Queue *queue = NULL;
 
+Suite * check_queue_suite (void);
+void setup (void);
+void teardown (void);
+
 void
 setup (void)
 {
