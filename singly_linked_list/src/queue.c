@@ -30,7 +30,7 @@ struct Queue
 };
 
 Queue *
-queue_create (unsigned)
+queue_create (void)
 {
   Queue *queue;
 

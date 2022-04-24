@@ -23,8 +23,6 @@
 
 #include "../src/queue.h"
 
-#define QUEUE_CAPACITY 10
-
 Queue *queue = NULL;
 
 Suite * check_queue_suite (void);
@@ -34,7 +32,7 @@ void teardown (void);
 void
 setup (void)
 {
-  queue = queue_create (QUEUE_CAPACITY);
+  queue = queue_create ();
 }
 
 void
