@@ -1,5 +1,5 @@
 AC_INIT([Stack], [0.1], [https://github.com/rbuj/basic-data-structures/issues])
-AM_INIT_AUTOMAKE([-Wall -Wconversion -Wunused-macros -Werror foreign])
+AM_INIT_AUTOMAKE([foreign])
 AC_CONFIG_MACRO_DIR([m4])
 AM_PROG_AR
 
@@ -14,14 +14,16 @@ then
 fi
 
 AC_ARG_ENABLE(profile,
-              AC_HELP_STRING([--enable-sanitize], [turn on profiler]))
+              AC_HELP_STRING([--enable-profile], [turn on profiler]),,
+              enable_profile=no)
 if test x"$enable_profile" = xyes
 then
     CFLAGS="$CFLAGS -pg -g"
 fi
 
 AC_ARG_ENABLE(sanitize,
-              AC_HELP_STRING([--enable-sanitize], [turn on address sanitizer]))
+              AC_HELP_STRING([--enable-sanitize], [turn on address sanitizer]),,
+              enable_sanitize=no)
 if test x"$enable_sanitizee" = xyes
 then
   CFLAGS="$CFLAGS -O0 -fsanitize=address"
@@ -35,9 +37,8 @@ AC_CONFIG_HEADERS([config.h])
 AC_SUBST(CFLAGS)
 AC_SUBST(LDFLAGS)
 
-AC_CONFIG_FILES([
+AC_OUTPUT([
   Makefile
   src/Makefile
   tests/Makefile
 ])
-AC_OUTPUT
