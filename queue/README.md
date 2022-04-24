@@ -16,3 +16,19 @@ make check
 ```
 ./src/test
 ```
+# Clean previos build
+```
+make clean
+```
+# Address Sanitizer build
+```
+./autogen.sh
+CC=clang CFLAGS=-O0 ./configure --enable-sanitize
+make
+```
+# Profiler build
+```
+./autogen.sh
+./configure --enable-profile
+make
+```
