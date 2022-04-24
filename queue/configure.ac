@@ -24,7 +24,7 @@ fi
 AC_ARG_ENABLE(sanitize,
               AC_HELP_STRING([--enable-sanitize], [turn on address sanitizer]),,
               enable_sanitize=no)
-if test x"$enable_sanitizee" = xyes
+if test x"$enable_sanitize" = xyes
 then
   CFLAGS="$CFLAGS -O0 -fsanitize=address"
   LDFLAGS="$LDFLAGS -O0 -fsanitize=address"
@@ -54,5 +54,5 @@ configure summary:
   link flags .......... $LDFLAGS
 
   profile support ..... $enable_profile
-  sanitize support .... $enable_profile
+  sanitize support .... $enable_sanitize
 "
