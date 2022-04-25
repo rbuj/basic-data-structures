@@ -58,7 +58,6 @@ queue_is_empty (Queue *queue)
     fprintf (stderr, "The queue is NULL.\n");
     raise (SIGABRT);
   }
-
   return list_is_empty (queue->list);
 }
 
@@ -70,7 +69,6 @@ queue_enqueue (Queue *queue,
     fprintf (stderr, "The queue is NULL.\n");
     raise (SIGABRT);
   }
-
   list_insert_at_end (queue->list, value);
 }
 
@@ -82,4 +80,24 @@ queue_dequeue (Queue *queue)
   } else {
     return list_remove_first (queue->list);
   }
+}
+
+int
+queue_front (Queue *queue)
+{
+  if (queue == NULL) {
+    fprintf (stderr, "The queue is NULL.\n");
+    raise (SIGABRT);
+  }
+  return list_get_head (queue->list);
+}
+
+int
+queue_rear (Queue *queue)
+{
+  if (queue == NULL) {
+    fprintf (stderr, "The queue is NULL.\n");
+    raise (SIGABRT);
+  }
+  return list_get_tail (queue->list);
 }

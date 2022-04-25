@@ -109,6 +109,18 @@ START_TEST (test_list_get_out_of_bounds)
   (void) list_get (list, 3);
 }
 
+START_TEST (test_list_get_head_empty)
+{
+  ck_assert (list_is_empty (list));
+  ck_assert_int_eq (list_get_head (list), INT_MIN);
+}
+
+START_TEST (test_list_get_tail_empty)
+{
+  ck_assert (list_is_empty (list));
+  ck_assert_int_eq (list_get_tail (list), INT_MIN);
+}
+
 START_TEST (test_list_insert_at)
 {
   char buffer [100];
@@ -370,6 +382,10 @@ check_list_suite (void)
   tcase_add_test_raise_signal (tc_core, test_list_get_empty, SIGABRT);
   tcase_add_test_raise_signal (tc_core, test_list_get_negative_index, SIGABRT);
   tcase_add_test_raise_signal (tc_core, test_list_get_out_of_bounds, SIGABRT);
+  /* list_get_head */
+  tcase_add_test              (tc_core, test_list_get_head_empty);
+  /* list_get_tail */
+  tcase_add_test              (tc_core, test_list_get_tail_empty);
   /* list_insert_at */
   tcase_add_test              (tc_core, test_list_insert_at);
   tcase_add_test              (tc_core, test_list_insert_at_empty);

@@ -27,5 +27,7 @@ int     queue_is_empty (Queue     *queue);
 void    queue_enqueue  (Queue     *queue,
                         int        value);
 int     queue_dequeue  (Queue     *queue);
+int     queue_front    (Queue     *queue);
+int     queue_rear     (Queue     *queue);
 
 #endif /* QUEUE_H */

@@ -25,8 +25,9 @@ Stack * stack_create   (void);
 void    stack_destroy  (Stack    **stack_ptr);
 
 int     stack_is_empty (Stack     *stack);
+int     stack_peek     (Stack     *stack);
+int     stack_pop      (Stack     *stack);
 void    stack_push     (Stack     *stack,
                         int        value);
-int     stack_pop      (Stack     *stack);
 
 #endif /* STACK_H */

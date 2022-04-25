@@ -61,6 +61,18 @@ START_TEST (test_queue_dequeue_empty)
   ck_assert (queue_dequeue (queue) == INT_MIN);
 }
 
+START_TEST (test_queue_front_empty)
+{
+  ck_assert (queue_is_empty (queue));
+  ck_assert (queue_front (queue) == INT_MIN);
+}
+
+START_TEST (test_queue_rear_empty)
+{
+  ck_assert (queue_is_empty (queue));
+  ck_assert (queue_rear (queue) == INT_MIN);
+}
+
 /* tc_null_check */
 
 START_TEST (test_queue_dequeue_null)
@@ -81,10 +93,22 @@ START_TEST (test_queue_enqueue_null)
   queue_enqueue (queue, 1);
 }
 
+START_TEST (test_queue_front_null)
+{
+  ck_assert (queue == NULL);
+  (void) queue_front (queue);
+}
+
 START_TEST (test_queue_is_empty_null)
 {
   ck_assert (queue == NULL);
   queue_is_empty (queue);
+}
+
+START_TEST (test_queue_rear_null)
+{
+  ck_assert (queue == NULL);
+  (void) queue_rear (queue);
 }
 
 Suite *
@@ -100,13 +124,17 @@ check_queue_suite (void)
   tcase_add_checked_fixture   (tc_core, setup, teardown);
   tcase_add_test              (tc_core, test_queue);
   tcase_add_test              (tc_core, test_queue_dequeue_empty);
+  tcase_add_test              (tc_core, test_queue_front_empty);
+  tcase_add_test              (tc_core, test_queue_rear_empty);
   suite_add_tcase (s, tc_core);
 
   tc_null_check = tcase_create("Null");
   tcase_add_test              (tc_null_check, test_queue_destroy_null);
   tcase_add_test_raise_signal (tc_null_check, test_queue_dequeue_null, SIGABRT);
   tcase_add_test_raise_signal (tc_null_check, test_queue_enqueue_null, SIGABRT);
+  tcase_add_test_raise_signal (tc_null_check, test_queue_front_null, SIGABRT);
   tcase_add_test_raise_signal (tc_null_check, test_queue_is_empty_null, SIGABRT);
+  tcase_add_test_raise_signal (tc_null_check, test_queue_rear_null, SIGABRT);
   suite_add_tcase (s, tc_null_check);
 
   return s;

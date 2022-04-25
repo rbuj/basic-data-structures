@@ -287,6 +287,24 @@ list_get (List *list,
 }
 
 int
+list_get_head (List *list)
+{
+  if (list == NULL)
+    raise (SIGABRT);
+
+  return list->head == NULL ? INT_MIN : list->head->value;
+}
+
+int
+list_get_tail (List *list)
+{
+  if (list == NULL)
+    raise (SIGABRT);
+
+  return list->tail == NULL ? INT_MIN : list->tail->value;
+}
+
+int
 list_is_empty (List *list)
 {
   if (list == NULL)

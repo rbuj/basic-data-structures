@@ -28,6 +28,8 @@ void   list_destroy             (List **list);
 void   list_bubble_sort         (List  *list);
 int    list_find                (List  *list, int value);
 int    list_get                 (List  *list, int index);
+int    list_get_head            (List  *list);
+int    list_get_tail            (List  *list);
 void   list_insert_at           (List  *list, int index, int value);
 void   list_insert_at_beginning (List  *list, int value);
 void   list_insert_at_end	(List  *list, int value);

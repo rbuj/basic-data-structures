@@ -63,6 +63,22 @@ stack_is_empty (Stack *stack)
   return list_is_empty (stack->list);
 }
 
+int
+stack_peek (Stack *stack)
+{
+  if (stack == NULL) {
+    fprintf (stderr, "The stack is NULL.\n");
+    raise (SIGABRT);
+  }
+  return list_get_tail (stack->list);
+}
+
+int
+stack_pop (Stack *stack)
+{
+  return stack_is_empty (stack) ? INT_MIN : list_remove_last (stack->list);
+}
+
 void
 stack_push (Stack *stack,
             int    value)
@@ -73,10 +89,4 @@ stack_push (Stack *stack,
   }
 
   list_insert_at_end (stack->list, value);
-}
-
-int
-stack_pop (Stack *stack)
-{
-  return stack_is_empty (stack) ? INT_MIN : list_remove_last (stack->list);
 }
